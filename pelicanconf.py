@@ -32,9 +32,11 @@ SOCIAL = (('You can add links in your config file', '#'),
 DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
 
-PLUGIN_PATHS = ['pelican-plugins']
+MARKUP = ('md', )
+
+PLUGIN_PATHS = ['./pelican-plugins']
 
 THEME = 'pelican-themes/pelican-bootstrap3'
 BOOTSTRAP_THEME = 'flatly'
@@ -42,7 +44,16 @@ BOOTSTRAP_THEME = 'flatly'
 PLUGIN_PATHS = ['pelican-plugins']
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 PLUGINS = [
-    'i18n_subsites']
+    'i18n_subsites',
+    'series',
+    'tag_cloud',
+    'liquid_tags.youtube',
+    'liquid_tags.notebook',
+    'liquid_tags.include_code',
+    'render_math',
+    'pelican-ipynb.markup']
 
 I18N_TEMPLATES_LANG = 'en'
+
+IGNORE_FILES = ['.ipynb_checkpoints']
 
