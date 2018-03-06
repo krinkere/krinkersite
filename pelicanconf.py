@@ -34,7 +34,7 @@ DEFAULT_PAGINATION = 5
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
 
-MARKUP = ('md', )
+MARKUP = ('md',)
 
 PLUGIN_PATHS = ['./pelican-plugins']
 
@@ -47,6 +47,7 @@ PLUGINS = [
     'i18n_subsites',
     'series',
     'tag_cloud',
+    'liquid_tags.img',
     'liquid_tags.youtube',
     'liquid_tags.notebook',
     'liquid_tags.include_code',
