@@ -1,0 +1,11 @@
+Title: iPython Notebook Example - Part 3
+Slug: third-post
+Date: 2018-03-06 11:11
+Category: example posts
+Tags: python, markdown, pelican, blog
+Authors: Al Krinker
+Summary: This is the third post of a series of posts. It will show series an jupyter notebook.
+Series: example-post-series
+Series_index: 3
+
+This is the third post of a series of posts. It will show series an jupyter notebook.
