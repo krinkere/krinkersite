@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>pelican - Cloud. Big Data. Analytics... and so on</title>
+    <title>plots - Cloud. Big Data. Analytics... and so on</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -175,7 +175,7 @@ init_mathjax();
 
 
     <meta name="author" content="Al Krinker" />
-    <meta name="keywords" content="pelican" />
+    <meta name="keywords" content="plots" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
@@ -245,19 +245,17 @@ Cloud. Big Data. Analytics... and so on            </a>
     <ol class="breadcrumb">
         <li><a href=".." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
         <li><a href="../" title="Tags">Tags</a></li>
-        <li class="active">pelican</li>
+        <li class="active">plots</li>
     </ol>
             <article>
-                <h2><a href="../second-post.html">Second Post - Part 2</a></h2>
+                <h2><a href="../plotting-sin-cos-with-matplotlib.html">Plotting sine and cosine with matplotlib and Python</a></h2>
                     <div class="well well-sm">
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2018-03-06T10:45:00-05:00"> Tue 06 March 2018</time>
+        <i class="fa fa-calendar"></i><time datetime="2018-02-05T10:30:00-05:00"> Mon 05 February 2018</time>
     </span>
 
-            <span class="label label-default">Series</span>
-            Part 2 of example-post-series
 
 
 
@@ -265,103 +263,17 @@ Cloud. Big Data. Analytics... and so on            </a>
 <span class="label label-default">Tags</span>
 	<a href="../tag/python.html">python</a>
         /
-	<a href="../tag/markdown.html">markdown</a>
+	<a href="../tag/jupyter.html">jupyter</a>
         /
-	<a href="../tag/pelican.html">pelican</a>
+	<a href="../tag/matplotlib.html">matplotlib</a>
         /
-	<a href="../tag/blog.html">blog</a>
+	<a href="../tag/numpy.html">numpy</a>
+        /
+	<a href="../tag/plots.html">plots</a>
     
 </footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This is the second post of a series of posts. It will show series and an embeded youtube video.</p>
-                    <a class="btn btn-default btn-xs" href="../second-post.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="../first-post.html">First Post - Part 1</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2018-03-06T10:41:00-05:00"> Tue 06 March 2018</time>
-    </span>
-
-            <span class="label label-default">Series</span>
-            Part 1 of example-post-series
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="../tag/python.html">python</a>
-        /
-	<a href="../tag/markdown.html">markdown</a>
-        /
-	<a href="../tag/pelican.html">pelican</a>
-        /
-	<a href="../tag/blog.html">blog</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This is the first post of a series of demonstration posts.</p>
-                    <a class="btn btn-default btn-xs" href="../first-post.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="../forth-post.html">Third Post - Part 3</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2017-11-30T12:40:00-05:00"> Thu 30 November 2017</time>
-    </span>
-
-            <span class="label label-default">Series</span>
-            Part 3 of example-post-series
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="../tag/python.html">python</a>
-        /
-	<a href="../tag/pelican.html">pelican</a>
-        /
-	<a href="../tag/blog.html">blog</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This is the third post of a series of posts. It will show series an jupyter notebook.</p>
-                    <a class="btn btn-default btn-xs" href="../forth-post.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="../fourth-post.html">Fourth Post - Part 4</a></h2>
-                    <div class="well well-sm">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2017-11-30T12:40:00-05:00"> Thu 30 November 2017</time>
-    </span>
-
-            <span class="label label-default">Series</span>
-            Part 4 of example-post-series
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="../tag/python.html">python</a>
-        /
-	<a href="../tag/pelican.html">pelican</a>
-        /
-	<a href="../tag/blog.html">blog</a>
-        /
-	<a href="../tag/tables.html">tables</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                <div class="summary"><p>This is the fourth post of a series of posts. It will demonstrate tables.</p>
-                    <a class="btn btn-default btn-xs" href="../fourth-post.html">more ...</a>
+                <div class="summary"><p>In this post we will create a plot using matplotlib and Python. The plot will show two trig functions, sine and cosine on the same set of axes.</p>
+                    <a class="btn btn-default btn-xs" href="../plotting-sin-cos-with-matplotlib.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -382,9 +294,7 @@ Cloud. Big Data. Analytics... and so on            </a>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="../second-post.html">Second Post - Part 2</a></li>
-    <li class="list-group-item"><a href="../first-post.html">First Post - Part 1</a></li>
-    <li class="list-group-item"><a href="../forth-post.html">Third Post - Part 3</a></li>
+    <li class="list-group-item"><a href="../plotting-sin-cos-with-matplotlib.html">Plotting sine and cosine with matplotlib and Python</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->

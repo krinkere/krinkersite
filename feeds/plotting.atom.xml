@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-06T10:49:00-05:00</updated><entry><title>Second Post - Part 2</title><link href="https://krinkere.github.io/krinkersite/second-post.html" rel="alternate"></link><published>2018-03-06T10:45:00-05:00</published><updated>2018-03-06T10:49:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-06:/krinkersite/second-post.html</id><summary type="html">&lt;p&gt;This is the second post of a series of posts. It will show series and an embeded youtube video.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the second post of a series of posts. It will show series and an embedded youtube video.&lt;/p&gt;
-&lt;p&gt;&lt;span class="videobox"&gt;
-                &lt;iframe width="640" height="390"
-                    src='https://www.youtube.com/embed/https://www.youtube.com/watch?v=Qq-5frjUfK0'
-                    frameborder='0' webkitAllowFullScreen mozallowfullscreen
-                    allowFullScreen&gt;
-                &lt;/iframe&gt;
-            &lt;/span&gt;&lt;/p&gt;</content><category term="python"></category><category term="markdown"></category><category term="pelican"></category><category term="blog"></category></entry><entry><title>First Post - Part 1</title><link href="https://krinkere.github.io/krinkersite/first-post.html" rel="alternate"></link><published>2018-03-06T10:41:00-05:00</published><updated>2018-03-06T10:42:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-06:/krinkersite/first-post.html</id><summary type="html">&lt;p&gt;This is the first post of a series of demonstration posts.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the first post of a series of demonstration posts.&lt;/p&gt;</content><category term="python"></category><category term="markdown"></category><category term="pelican"></category><category term="blog"></category></entry><entry><title>Plotting sine and cosine with matplotlib and Python</title><link href="https://krinkere.github.io/krinkersite/plotting-sin-cos-with-matplotlib.html" rel="alternate"></link><published>2018-02-05T10:30:00-05:00</published><updated>2018-02-05T10:30:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-02-05:/krinkersite/plotting-sin-cos-with-matplotlib.html</id><summary type="html">&lt;p&gt;In this post we will create a plot using matplotlib and Python. The plot will show two trig functions, sine and cosine on the same set of axes.&lt;/p&gt;</summary><content type="html">&lt;p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - Plotting</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/plotting.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-02-05T10:30:00-05:00</updated><entry><title>Plotting sine and cosine with matplotlib and Python</title><link href="https://krinkere.github.io/krinkersite/plotting-sin-cos-with-matplotlib.html" rel="alternate"></link><published>2018-02-05T10:30:00-05:00</published><updated>2018-02-05T10:30:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-02-05:/krinkersite/plotting-sin-cos-with-matplotlib.html</id><summary type="html">&lt;p&gt;In this post we will create a plot using matplotlib and Python. The plot will show two trig functions, sine and cosine on the same set of axes.&lt;/p&gt;</summary><content type="html">&lt;p&gt;
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -107,57 +100,4 @@ In this post, we are going to build a couple of plots which show the trig functi
 &lt;/div&gt;
  
 
-&lt;/p&gt;</content><category term="python"></category><category term="jupyter"></category><category term="matplotlib"></category><category term="numpy"></category><category term="plots"></category></entry><entry><title>Third Post - Part 3</title><link href="https://krinkere.github.io/krinkersite/forth-post.html" rel="alternate"></link><published>2017-11-30T12:40:00-05:00</published><updated>2017-11-30T12:40:00-05:00</updated><author><name>Peter D. Kazarinoff</name></author><id>tag:krinkere.github.io,2017-11-30:/krinkersite/forth-post.html</id><summary type="html">&lt;p&gt;This is the third post of a series of posts. It will show series an jupyter notebook.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post contains a jupyter notebook.&lt;/p&gt;
-&lt;p&gt;
-&lt;div class="cell border-box-sizing code_cell rendered"&gt;
-&lt;div class="input"&gt;
-&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[1]:&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-    &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sigh&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="output_wrapper"&gt;
-&lt;div class="output"&gt;
-
-
-&lt;div class="output_area"&gt;
-
-&lt;div class="prompt"&gt;&lt;/div&gt;
-
-
-&lt;div class="output_subarea output_stream output_stdout output_text"&gt;
-&lt;pre&gt;Sigh
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
- 
-
-&lt;/p&gt;</content><category term="python"></category><category term="pelican"></category><category term="blog"></category></entry><entry><title>Fourth Post - Part 4</title><link href="https://krinkere.github.io/krinkersite/fourth-post.html" rel="alternate"></link><published>2017-11-30T12:40:00-05:00</published><updated>2017-11-30T12:40:00-05:00</updated><author><name>Peter D. Kazarinoff</name></author><id>tag:krinkere.github.io,2017-11-30:/krinkersite/fourth-post.html</id><summary type="html">&lt;p&gt;This is the fourth post of a series of posts. It will demonstrate tables.&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is the fourth post of a series of posts. It will demonstrate tables.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Column Header&lt;/th&gt;
-&lt;th&gt;Column Header&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Row 1&lt;/td&gt;
-&lt;td&gt;Data 1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Row 2&lt;/td&gt;
-&lt;td&gt;Data 2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</content><category term="python"></category><category term="pelican"></category><category term="blog"></category><category term="tables"></category></entry></feed>
+&lt;/p&gt;</content><category term="python"></category><category term="jupyter"></category><category term="matplotlib"></category><category term="numpy"></category><category term="plots"></category></entry></feed>
