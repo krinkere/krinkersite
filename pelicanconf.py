@@ -71,7 +71,7 @@ MARKDOWN = {
 
 
 # Ignore all files that start with a dot .
-IGNORE_FILES = ['.*','*-checkpoint.ipynb', '.ipynb_checkpoints']
+IGNORE_FILES = ['.*', '*-checkpoint.ipynb', '.ipynb_checkpoints', '*backup']
 
 
 # Breadcrumbs
