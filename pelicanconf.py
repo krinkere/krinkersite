@@ -111,8 +111,8 @@ YEAR_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/index.html'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 
 
-ABOUT_ME = 'I work as a Data Scientist at USPTO. ' \
-           'I am a husband and a father. ' \
+ABOUT_ME = 'I work as a Data Scientist at USPTO.<br/> ' \
+           'I am a husband and a father. <br/> ' \
            'In my free time, I practice Brazilian Jiu Jitsu. I was awarded Brown belt in December of 2017 by Tony Passos (3rd degree black belt under Ricardo De La Riva)'
 
 

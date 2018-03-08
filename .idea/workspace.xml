@@ -2,11 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f39a0bf-6e04-4434-a480-076ed835cd0c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/content/posts/How_to_find_a_file_containing_particular_text_in_Linux.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/content/posts/sample_post.md" afterPath="$PROJECT_DIR$/content/posts/sample_post.md.backup" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/content/posts/what_is_micropython.md" afterPath="$PROJECT_DIR$/content/posts/what_is_micropython.md.backup" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/content/notebooks/plotting_trig_functions.ipynb" afterPath="$PROJECT_DIR$/content/notebooks/plotting_trig_functions.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/archives.html" afterPath="$PROJECT_DIR$/output/archives.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/author/al-krinker.html" afterPath="$PROJECT_DIR$/output/author/al-krinker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/authors.html" afterPath="$PROJECT_DIR$/output/authors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/categories.html" afterPath="$PROJECT_DIR$/output/categories.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/category/how-to-article.html" afterPath="$PROJECT_DIR$/output/category/how-to-article.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/first-post.html" afterPath="$PROJECT_DIR$/output/first-post.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/index.html" afterPath="$PROJECT_DIR$/output/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/pages/about.html" afterPath="$PROJECT_DIR$/output/pages/about.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/pages/book.html" afterPath="$PROJECT_DIR$/output/pages/book.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/posts/2014/May/index.html" afterPath="$PROJECT_DIR$/output/posts/2014/May/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/posts/2014/index.html" afterPath="$PROJECT_DIR$/output/posts/2014/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/search.html" afterPath="$PROJECT_DIR$/output/search.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/tag/linux.html" afterPath="$PROJECT_DIR$/output/tag/linux.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/tags.html" afterPath="$PROJECT_DIR$/output/tags.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pelicanconf.py" afterPath="$PROJECT_DIR$/pelicanconf.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,88 +28,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="pelicanconf.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pelicanconf.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="73" column="74" lean-forward="false" selection-start-line="73" selection-start-column="74" selection-end-line="73" selection-end-column="74" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="first_post.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/first_post.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="67" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fourth_post.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/fourth_post.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="How_to_find_a_file_containing_particular_text_in_Linux.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/content/posts/How_to_find_a_file_containing_particular_text_in_Linux.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="602">
-              <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sample_post.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/sample_post.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="second_post.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/second_post.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="third_post.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/third_post.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="what_is_micropython.md.backup" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/posts/what_is_micropython.md.backup">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -106,8 +36,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pelicanconf.py" />
         <option value="$PROJECT_DIR$/content/posts/How_to_find_a_file_containing_particular_text_in_Linux.md" />
+        <option value="$PROJECT_DIR$/pelicanconf.py" />
       </list>
     </option>
   </component>
@@ -166,6 +96,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="posts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="krinkersite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="krinkersite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -402,14 +350,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pelicanconf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="73" column="74" lean-forward="false" selection-start-line="73" selection-start-column="74" selection-end-line="73" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/posts/sample_post.md.backup">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -462,6 +402,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="602">
           <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pelicanconf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="114" column="41" lean-forward="false" selection-start-line="114" selection-start-column="41" selection-end-line="114" selection-end-column="41" />
           <folding />
         </state>
       </provider>
