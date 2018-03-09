@@ -4,7 +4,7 @@ Modified: 2014-05-27 10:42
 Status: published
 Category: How To article
 Tags: linux
-Slug: first-post
+Slug: How_to_find_a_file_containing_particular_text_in_Linux
 Authors: Al Krinker
 Summary: Use grep to find file containing particular text.
 
