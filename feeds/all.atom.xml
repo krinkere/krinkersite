@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2014-05-27T10:42:00-04:00</updated><entry><title>How to find a file containing particular text in Linux</title><link href="https://krinkere.github.io/krinkersite/first-post.html" rel="alternate"></link><published>2014-05-27T10:41:00-04:00</published><updated>2014-05-27T10:42:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2014-05-27:/krinkersite/first-post.html</id><summary type="html">&lt;p&gt;Use grep to find file containing particular text.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here is a quick example:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-09T08:17:00-05:00</updated><entry><title>Commit your changes or stash them before you can merge??!?!</title><link href="https://krinkere.github.io/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html" rel="alternate"></link><published>2018-03-09T07:54:00-05:00</published><updated>2018-03-09T08:17:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-09:/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html</id><summary type="html">&lt;p&gt;What to do when you are faced with 'Please, commit your changes or stash them before you can merge.' message from git as you are trying to get latest code off your remote repository&lt;/p&gt;</summary><content type="html">&lt;p&gt;When trying to update your local copy from remote master copy, you will see following error&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git pull origin master
+&lt;span class="go"&gt;error: Your local changes to the following files would be overwritten by merge:&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;list of files&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;Please commit your changes or stash them before you merge.&lt;/span&gt;
+&lt;span class="go"&gt;Aborting&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You have several options here&lt;/p&gt;
+&lt;h3&gt;Commit the change&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git add .
+&lt;span class="gp"&gt;$&lt;/span&gt; git commit -m &lt;span class="s2"&gt;&amp;quot;committing before the update&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Stash them&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git stash
+&lt;span class="gp"&gt;$&lt;/span&gt; git stash pop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Overwrite local changes&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;git reset --hard&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="git"></category></entry><entry><title>How to find a file containing particular text in Linux</title><link href="https://krinkere.github.io/krinkersite/How_to_find_a_file_containing_particular_text_in_Linux.html" rel="alternate"></link><published>2014-05-27T10:41:00-04:00</published><updated>2014-05-27T10:42:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2014-05-27:/krinkersite/How_to_find_a_file_containing_particular_text_in_Linux.html</id><summary type="html">&lt;p&gt;Use grep to find file containing particular text.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here is a quick example:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -r &lt;span class="s2"&gt;&amp;quot;text string to search” directory-path&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
