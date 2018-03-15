@@ -1,29 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-15T12:30:00-04:00</updated><entry><title>Commit your changes or stash them before you can merge??!?!</title><link href="https://krinkere.github.io/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html" rel="alternate"></link><published>2018-03-09T07:54:00-05:00</published><updated>2018-03-09T08:17:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-09:/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html</id><summary type="html">&lt;p&gt;What to do when you are faced with 'Please, commit your changes or stash them before you can merge.' message from git as you are trying to get latest code off your remote repository&lt;/p&gt;</summary><content type="html">&lt;p&gt;When trying to update your local copy from remote master copy, you will see following error&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git pull origin master
-&lt;span class="go"&gt;error: Your local changes to the following files would be overwritten by merge:&lt;/span&gt;
-&lt;span class="go"&gt;&amp;lt;list of files&amp;gt;&lt;/span&gt;
-&lt;span class="go"&gt;Please commit your changes or stash them before you merge.&lt;/span&gt;
-&lt;span class="go"&gt;Aborting&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;You have several options here&lt;/p&gt;
-&lt;h3&gt;Commit the change&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git add .
-&lt;span class="gp"&gt;$&lt;/span&gt; git commit -m &lt;span class="s2"&gt;&amp;quot;committing before the update&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;Stash them&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git stash
-&lt;span class="gp"&gt;$&lt;/span&gt; git stash pop
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;Overwrite local changes&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;git reset --hard&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="git"></category></entry><entry><title>Lucene scoring examplained</title><link href="https://krinkere.github.io/krinkersite/Lucene_scoring_examplained.html" rel="alternate"></link><published>2015-04-30T19:48:00-04:00</published><updated>2018-03-15T12:30:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2015-04-30:/krinkersite/Lucene_scoring_examplained.html</id><summary type="html">&lt;p&gt;Overview of Lucene scoring&lt;/p&gt;</summary><content type="html">&lt;p&gt;Several good books already explain what Lucene scoring really means and how it is calculated in great detail with lots of basic concepts explain.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - Tutorial</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/tutorial.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-15T12:30:00-04:00</updated><entry><title>Lucene scoring examplained</title><link href="https://krinkere.github.io/krinkersite/Lucene_scoring_examplained.html" rel="alternate"></link><published>2015-04-30T19:48:00-04:00</published><updated>2018-03-15T12:30:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2015-04-30:/krinkersite/Lucene_scoring_examplained.html</id><summary type="html">&lt;p&gt;Overview of Lucene scoring&lt;/p&gt;</summary><content type="html">&lt;p&gt;Several good books already explain what Lucene scoring really means and how it is calculated in great detail with lots of basic concepts explain.
 In this, post I am going to try to keep it high level for people already familiar with the basics and go straight for the scoring overview.&lt;/p&gt;
 &lt;p&gt;The factors involved in Lucene's scoring algorithm are as follows:&lt;br /&gt;
 1. tf = term frequency in document = measure of how often a term appears in the document&lt;br /&gt;
@@ -88,36 +64,4 @@ For example, if you want to ignore how common a term appears across the index,&l
     &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;lengthNorm&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;field&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;numTerms&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
   &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="lucene"></category><category term="search"></category></entry><entry><title>How to find a file containing particular text in Linux</title><link href="https://krinkere.github.io/krinkersite/How_to_find_a_file_containing_particular_text_in_Linux.html" rel="alternate"></link><published>2014-05-27T10:41:00-04:00</published><updated>2014-05-27T10:42:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2014-05-27:/krinkersite/How_to_find_a_file_containing_particular_text_in_Linux.html</id><summary type="html">&lt;p&gt;Use grep to find file containing particular text.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here is a quick example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -r &lt;span class="s2"&gt;&amp;quot;text string to search” directory-path&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To search for a string ‘logged in’ in all text (*.log) files located in /etc/networks/ directory for example, use:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;logged in&amp;quot;&lt;/span&gt; /etc/networks/*.log
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To search all subdirectories recursively, include -r option like so:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -r &lt;span class="s2"&gt;&amp;quot;logged in&amp;quot;&lt;/span&gt; /etc/networks/*.log
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The grep command prints the matching lines for each match. Pass -H option to print the filename only:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -H -r &lt;span class="s2"&gt;&amp;quot;logged in&amp;quot;&lt;/span&gt; /etc/networks/*.log
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To search for two or more words, use egrep:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;egrep -w -r &amp;#39;logged in|logged out&amp;#39; /etc/networks/*.log&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To hide warning spam of permission for certain directories being denied, etc, send them to dev/null:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -w -r &lt;span class="s1"&gt;&amp;#39;logged in|logged out&amp;#39;&lt;/span&gt; /etc/networks/*.log &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To make it case insensitive, use -i option:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; grep -i &lt;span class="s2"&gt;&amp;quot;logged in&amp;quot;&lt;/span&gt; /etc/networks/*.log
-&lt;/pre&gt;&lt;/div&gt;</content><category term="linux"></category></entry></feed>
+&lt;/pre&gt;&lt;/div&gt;</content><category term="lucene"></category><category term="search"></category></entry></feed>

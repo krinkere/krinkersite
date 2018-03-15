@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Archives - Cloud. Big Data. Analytics... and so on</title>
+    <title>Lucene scoring examplained - Cloud. Big Data. Analytics... and so on</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -173,15 +173,22 @@ init_mathjax = function() {
 init_mathjax();
 </script>
 
+<link rel="canonical" href="./Lucene_scoring_examplained.html">
 
         <meta name="author" content="Al Krinker" />
+        <meta name="keywords" content="lucene,search" />
+        <meta name="description" content="Overview of Lucene scoring" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Cloud. Big Data. Analytics... and so on"/>
-        <meta property="og:url" content="."/>
-        <meta property="og:description" content="Cloud. Big Data. Analytics... and so on"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Lucene scoring examplained"/>
+        <meta property="og:url" content="./Lucene_scoring_examplained.html"/>
+        <meta property="og:description" content="Overview of Lucene scoring"/>
+        <meta property="article:published_time" content="2015-04-30" />
+            <meta property="article:section" content="Tutorial" />
+            <meta property="article:tag" content="lucene" />
+            <meta property="article:tag" content="search" />
+            <meta property="article:author" content="Al Krinker" />
 
 
 
@@ -199,6 +206,8 @@ init_mathjax();
 
 
 
+        <link href="./feeds/tutorial.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Cloud. Big Data. Analytics... and so on Tutorial ATOM Feed"/>
 
 </head>
 <body>
@@ -238,27 +247,113 @@ Cloud. Big Data. Analytics... and so on            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-    <ol class="breadcrumb">
-        <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
-        <li class="active">Archives</li>
-    </ol>
+            <ol class="breadcrumb">
+                <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="./category/tutorial.html" title="Tutorial">Tutorial</a></li>
+                <li class="active">Lucene scoring examplained</li>
+            </ol>
     <section id="content">
-      <h1>Archives for Cloud. Big Data. Analytics... and so on</h1>
-        <div id="archives">
-                <p>
-                    <span class="categories-timestamp"><time datetime="2018-03-09T07:54:00-05:00">Fri 09 March 2018</time></span>
-                    <a href="./Commit_your_changes_or_stash_them_before_you_can_merge.html">Commit your changes or stash them before you can merge??!?!</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2015-04-30T19:48:00-04:00">Thu 30 April 2015</time></span>
-                    <a href="./Lucene_scoring_examplained.html">Lucene scoring examplained</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2014-05-27T10:41:00-04:00">Tue 27 May 2014</time></span>
-                    <a href="./How_to_find_a_file_containing_particular_text_in_Linux.html">How to find a file containing particular text in Linux</a>
-                </p>
-        </div>
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./Lucene_scoring_examplained.html"
+                       rel="bookmark"
+                       title="Permalink to Lucene scoring examplained">
+                        Lucene scoring examplained
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-04-30T19:48:00-04:00"> Thu 30 April 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="./tag/lucene.html">lucene</a>
+        /
+	<a href="./tag/search.html">search</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Several good books already explain what Lucene scoring really means and how it is calculated in great detail with lots of basic concepts explain.
+In this, post I am going to try to keep it high level for people already familiar with the basics and go straight for the scoring overview.</p>
+<p>The factors involved in Lucene's scoring algorithm are as follows:<br />
+1. tf = term frequency in document = measure of how often a term appears in the document<br />
+2. idf = inverse document frequency = measure of how often the term appears across the index<br />
+3. coord = number of terms in the query that were found in the document<br />
+4. lengthNorm = measure of the importance of a term according to the total number of terms in the field<br />
+5. queryNorm = normalization factor so that queries can be compared<br />
+6. boost (index) = boost of the field at index-time<br />
+7. boost (query) = boost of the field at query-time<br /></p>
+<p>The implementation, implication and rationales of factors 1,2, 3 and 4 in DefaultSimilarity.java, which is what you get if you don't explicitly specify a similarity, are:
+note: the implication of these factors should be read as, "Everything else being equal, … "</p>
+<ol>
+<li>
+<p>tf<br />
+Implementation: sqrt(freq)<br />
+Implication: the more frequent a term occurs in a document, the greater its score<br />
+Rationale: documents which contains more of a term are generally more relevant</p>
+</li>
+<li>
+<p>idf<br />
+Implementation: log(numDocs/(docFreq+1)) + 1<br />
+Implication: the greater the occurrence of a term in different documents, the lower its score<br />
+Rationale: common terms are less important than uncommon ones</p>
+</li>
+<li>
+<p>coord<br />
+Implementation: overlap / maxOverlap<br />
+Implication: of the terms in the query, a document that contains more terms will have a higher score<br />
+Rationale: self-explanatory</p>
+</li>
+<li>
+<p>lengthNorm<br />
+Implementation: 1/sqrt(numTerms)<br />
+Implication: a term matched in fields with less terms have a higher score<br />
+Rationale: a term in a field with less terms is more important than one with more<br />
+queryNorm is not related to the relevance of the document, but rather tries to make scores between different queries comparable. It is implemented as 1/sqrt(sumOfSquaredWeights)<br />
+So, roughly speaking (quoting Mark Harwood from the mailing list),</p>
+<ul>
+<li>Documents containing all the search terms are good</li>
+<li>Matches on rare words are better than for common words</li>
+<li>Long documents are not as good as short ones</li>
+<li>Documents which mention the search terms many times are good</li>
+</ul>
+</li>
+</ol>
+<p>The mathematical definition of the scoring can be found in <a href="https://lucene.apache.org/core/2_9_4/api/all/org/apache/lucene/search/Similarity.html">org.apache.lucene.search.Class Similarity</a></p>
+<h3>Customizing scoring</h3>
+<p>Its easy to customize the scoring algorithm. Just subclass DefaultSimilarity and override the method you want to customize.
+For example, if you want to ignore how common a term appears across the index,</p>
+<div class="highlight"><pre><span></span><span class="n">Similarity</span> <span class="n">sim</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSimilarity</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">float</span> <span class="nf">idf</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>and if you think for the title field, more terms is better</p>
+<div class="highlight"><pre><span></span><span class="n">Similarity</span> <span class="n">sim</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSimilarity</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">float</span> <span class="nf">lengthNorm</span><span class="o">(</span><span class="n">String</span> <span class="n">field</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numTerms</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;title&quot;</span><span class="o">))</span> <span class="k">return</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span> <span class="o">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">numTerms</span><span class="o">));</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">lengthNorm</span><span class="o">(</span><span class="n">field</span><span class="o">,</span> <span class="n">numTerms</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+            </div>
+            <!-- /.entry-content -->
+        </article>
     </section>
+
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
