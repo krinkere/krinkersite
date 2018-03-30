@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-16T15:00:00-04:00</updated><entry><title>Commit your changes or stash them before you can merge??!?!</title><link href="https://krinkere.github.io/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html" rel="alternate"></link><published>2018-03-09T07:54:00-05:00</published><updated>2018-03-09T08:17:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-09:/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html</id><summary type="html">&lt;p&gt;What to do when you are faced with 'Please, commit your changes or stash them before you can merge.' message from git as you are trying to get latest code off your remote repository&lt;/p&gt;</summary><content type="html">&lt;p&gt;When trying to update your local copy from remote master copy, you will see following error&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-30T09:27:00-04:00</updated><entry><title>How to detect encoding of CSV file in python</title><link href="https://krinkere.github.io/krinkersite/encoding_csv_file_python.html" rel="alternate"></link><published>2018-03-30T09:27:00-04:00</published><updated>2018-03-30T09:27:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-30:/krinkersite/encoding_csv_file_python.html</id><summary type="html">&lt;p&gt;How to read CSV file in python and detect its encoding&lt;/p&gt;</summary><content type="html">&lt;p&gt;In my line of work, I have to deal with a lot of spreadsheets coming 
+my way with different type of data. I don't control these csv files, hence
+I never know how they are being generated. If I were to simply read
+the file, I would often get something like that.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;UnicodeDecodeError Traceback (most recent call last)
+    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._convert_tokens()
+    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._convert_with_dtype()
+    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._string_convert()
+    pandas/_libs/parsers.pyx in pandas._libs.parsers._string_box_utf8()
+
+UnicodeDecodeError: &amp;#39;utf-8&amp;#39; codec can&amp;#39;t decode byte 0x99 in position 11: invalid start byte
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Basically, when you specify the following, you assume that the information
+was encoded in UTF-8 ()default) format &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my_data.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;However, if that's not the case and format is not UTF-8 then you get a nasty error 
+shown previously. What to do? Try manually some common encoders, or look at the file
+and try to figure it out? &lt;br/&gt;
+A much better way is to use chardet module to do it for you. Here we going to 
+read first ten thousand bytes to figure out the encoding type. Note that chardet
+is not 100% accurate and you would actually see the level of confidence of 
+encoder detection as part of chardet output. But it is still better than guessing manually.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look at the first ten thousand bytes to guess the character encoding&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my_data.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;rawdata&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;chardet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;detect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rawdata&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# check what the character encoding might be&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The result is&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;encoding&amp;#39;: &amp;#39;Windows-1252&amp;#39;, &amp;#39;confidence&amp;#39;: 0.73, &amp;#39;language&amp;#39;: &amp;#39;&amp;#39;}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So chardet is 73% confidence that the right encoding is "Windows-1252".  Now we can use
+this data to specify encoding type as we trying to read the file&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my_data.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;encoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Windows-1252&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;No errors! &lt;/p&gt;</content><category term="python"></category></entry><entry><title>Commit your changes or stash them before you can merge??!?!</title><link href="https://krinkere.github.io/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html" rel="alternate"></link><published>2018-03-09T07:54:00-05:00</published><updated>2018-03-09T08:17:00-05:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-09:/krinkersite/Commit_your_changes_or_stash_them_before_you_can_merge.html</id><summary type="html">&lt;p&gt;What to do when you are faced with 'Please, commit your changes or stash them before you can merge.' message from git as you are trying to get latest code off your remote repository&lt;/p&gt;</summary><content type="html">&lt;p&gt;When trying to update your local copy from remote master copy, you will see following error&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git pull origin master
 &lt;span class="go"&gt;error: Your local changes to the following files would be overwritten by merge:&lt;/span&gt;
 &lt;span class="go"&gt;&amp;lt;list of files&amp;gt;&lt;/span&gt;
