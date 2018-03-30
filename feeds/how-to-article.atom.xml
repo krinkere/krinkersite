@@ -1,5 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-30T09:27:00-04:00</updated><entry><title>How to detect encoding of CSV file in python</title><link href="https://krinkere.github.io/krinkersite/encoding_csv_file_python.html" rel="alternate"></link><published>2018-03-30T09:27:00-04:00</published><updated>2018-03-30T09:27:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-30:/krinkersite/encoding_csv_file_python.html</id><summary type="html">&lt;p&gt;How to read CSV file in python and detect its encoding&lt;/p&gt;</summary><content type="html">&lt;p&gt;In my line of work, I have to deal with a lot of spreadsheets coming 
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-03-30T11:44:00-04:00</updated><entry><title>How to remove typos from entity names via fuzzywuzzy module in python.</title><link href="https://krinkere.github.io/krinkersite/fix_spelling_errors.html" rel="alternate"></link><published>2018-03-30T11:44:00-04:00</published><updated>2018-03-30T11:44:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-30:/krinkersite/fix_spelling_errors.html</id><summary type="html">&lt;p&gt;Remove typos by leveraging fuzzywuzzy module in python&lt;/p&gt;</summary><content type="html">&lt;p&gt;While cleaning data in csv file, it is often common to see entity name such 
+as city, person name, organization, etc being misspelled a little slightly and 
+hence not producing same type of statistic as you might want. For example, 
+let's say that you try to collect stats on number of times user accessed your page.
+In that user name can be entered manually or it provided by different systems, 
+then it might be different slight. Here I mean that we need to ensure that
+case is the same not to throw our stats and any spaces are cleaned as well
+just as a prelim step. Also, the username might be slightly misspelled with an
+extra dash, space or single character. Here lays the danger though, there
+can we two usernames that vary just by a character. I remember the days of hotmail
+and that you would often get emails sent to blackwolf to your black.wolf account.
+Gmail saw this as a problem and now it ignores periods in the emails to avoid this
+issue. What I am trying to say is that you need to use typos with care. Now how you do it?&lt;/p&gt;
+&lt;p&gt;First of all, clean the text from spaces and make it lowercased.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+
+&lt;span class="c1"&gt;# read in our dataset&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my_data.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# convert to lower case&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;# remove trailing white spaces&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# let&amp;#39;s take a look at list of unique usernames values&lt;/span&gt;
+&lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# sort them alphabetically and then take a closer look&lt;/span&gt;
+&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We should see some usernames that seem too close of a match... let's 
+try to find all usernames that are more that 90% close to each other 
+and replace them to the most common name&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;fuzzywuzzy&lt;/span&gt;
+
+&lt;span class="c1"&gt;# function to replace rows in the provided column of the provided dataframe&lt;/span&gt;
+&lt;span class="c1"&gt;# that match the provided string above the provided ratio with the provided string&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;replace_matches_in_column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;string_to_match&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;min_ratio&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# get a list of unique strings&lt;/span&gt;
+    &lt;span class="n"&gt;strings&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# get the top 10 closest matches to our input string&lt;/span&gt;
+    &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fuzzywuzzy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string_to_match&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                                         &lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scorer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;fuzzywuzzy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fuzz&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;token_sort_ratio&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# only get matches with a ratio &amp;gt; 90&lt;/span&gt;
+    &lt;span class="n"&gt;close_matches&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;matches&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;min_ratio&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# get the rows of all the close matches in our dataframe&lt;/span&gt;
+    &lt;span class="n"&gt;rows_with_matches&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;close_matches&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# replace all rows with close matches with the input matches &lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rows_with_matches&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;string_to_match&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# let us know the function&amp;#39;s done&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;All done!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now you can call it as such&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# use the function we just wrote to replace close matches to &amp;quot;d.i khan&amp;quot; with &amp;quot;d.i khan&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;replace_matches_in_column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;string_to_match&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;black.wolf&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All done!&lt;/p&gt;</content><category term="python"></category></entry><entry><title>How to detect encoding of CSV file in python</title><link href="https://krinkere.github.io/krinkersite/encoding_csv_file_python.html" rel="alternate"></link><published>2018-03-30T09:27:00-04:00</published><updated>2018-03-30T09:27:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-03-30:/krinkersite/encoding_csv_file_python.html</id><summary type="html">&lt;p&gt;How to read CSV file in python and detect its encoding&lt;/p&gt;</summary><content type="html">&lt;p&gt;In my line of work, I have to deal with a lot of spreadsheets coming 
 my way with different type of data. I don't control these csv files, hence
 I never know how they are being generated. If I were to simply read
 the file, I would often get something like that.&lt;/p&gt;
