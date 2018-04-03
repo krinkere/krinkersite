@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>How to detect encoding of CSV file in python - Cloud. Big Data. Analytics... and so on</title>
+    <title>Mapping SQL to Pandas - Cloud. Big Data. Analytics... and so on</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -173,20 +173,21 @@ init_mathjax = function() {
 init_mathjax();
 </script>
 
-<link rel="canonical" href="./encoding_csv_file_python.html">
+<link rel="canonical" href="./mapping_sql_to_pandas.html">
 
         <meta name="author" content="Al Krinker" />
-        <meta name="keywords" content="python" />
-        <meta name="description" content="How to read CSV file in python and detect its encoding" />
+        <meta name="keywords" content="python,pandas" />
+        <meta name="description" content="Illustration of common SQL operations mapped to Pandas." />
 
         <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="How to detect encoding of CSV file in python"/>
-        <meta property="og:url" content="./encoding_csv_file_python.html"/>
-        <meta property="og:description" content="How to read CSV file in python and detect its encoding"/>
-        <meta property="article:published_time" content="2018-03-30" />
-            <meta property="article:section" content="How To article" />
+        <meta property="og:title" content="Mapping SQL to Pandas"/>
+        <meta property="og:url" content="./mapping_sql_to_pandas.html"/>
+        <meta property="og:description" content="Illustration of common SQL operations mapped to Pandas."/>
+        <meta property="article:published_time" content="2018-04-03" />
+            <meta property="article:section" content="Python" />
             <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="pandas" />
             <meta property="article:author" content="Al Krinker" />
 
 
@@ -205,8 +206,8 @@ init_mathjax();
 
 
 
-        <link href="./feeds/how-to-article.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Cloud. Big Data. Analytics... and so on How To article ATOM Feed"/>
+        <link href="./feeds/python.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Cloud. Big Data. Analytics... and so on Python ATOM Feed"/>
 
 </head>
 <body>
@@ -248,17 +249,17 @@ Cloud. Big Data. Analytics... and so on            </a>
         <div class="col-sm-9">
             <ol class="breadcrumb">
                 <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
-                <li><a href="./category/how-to-article.html" title="How To article">How To article</a></li>
-                <li class="active">How to detect encoding of CSV file in python</li>
+                <li><a href="./category/python.html" title="Python">Python</a></li>
+                <li class="active">Mapping SQL to Pandas</li>
             </ol>
     <section id="content">
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="./encoding_csv_file_python.html"
+                    <a href="./mapping_sql_to_pandas.html"
                        rel="bookmark"
-                       title="Permalink to How to detect encoding of CSV file in python">
-                        How to detect encoding of CSV file in python
+                       title="Permalink to Mapping SQL to Pandas">
+                        Mapping SQL to Pandas
                     </a>
                 </h1>
             </header>
@@ -268,7 +269,7 @@ Cloud. Big Data. Analytics... and so on            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2018-03-30T09:27:00-04:00"> Fri 30 March 2018</time>
+        <i class="fa fa-calendar"></i><time datetime="2018-04-03T13:15:00-04:00"> Tue 03 April 2018</time>
     </span>
 
 
@@ -277,64 +278,130 @@ Cloud. Big Data. Analytics... and so on            </a>
 
 <span class="label label-default">Tags</span>
 	<a href="./tag/python.html">python</a>
+        /
+	<a href="./tag/pandas.html">pandas</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>In my line of work, I have to deal with a lot of spreadsheets coming 
-my way with different type of data. I don't control these csv files, hence
-I never know how they are being generated. If I were to simply read
-the file, I would often get something like that.</p>
-<div class="highlight"><pre><span></span>UnicodeDecodeError Traceback (most recent call last)
-    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._convert_tokens()
-    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._convert_with_dtype()
-    pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._string_convert()
-    pandas/_libs/parsers.pyx in pandas._libs.parsers._string_box_utf8()
+                <style>
+table {
+    border: 1px solid black;
+}
+td {
+    border: 10px solid black;
+}
 
-UnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode byte 0x99 in position 11: invalid start byte
-</pre></div>
+</style>
 
-
-<p>Basically, when you specify the following, you assume that the information
-was encoded in UTF-8 ()default) format </p>
-<div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;my_data.csv&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p>However, if that's not the case and format is not UTF-8 then you get a nasty error 
-shown previously. What to do? Try manually some common encoders, or look at the file
-and try to figure it out? <br/>
-A much better way is to use chardet module to do it for you. Here we going to 
-read first ten thousand bytes to figure out the encoding type. Note that chardet
-is not 100% accurate and you would actually see the level of confidence of 
-encoder detection as part of chardet output. But it is still better than guessing manually.</p>
-<div class="highlight"><pre><span></span><span class="c1"># look at the first ten thousand bytes to guess the character encoding</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;my_data.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">rawdata</span><span class="p">:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">chardet</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">rawdata</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>
-
-<span class="c1"># check what the character encoding might be</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-
-
-<p>The result is</p>
-<div class="highlight"><pre><span></span>{&#39;encoding&#39;: &#39;Windows-1252&#39;, &#39;confidence&#39;: 0.73, &#39;language&#39;: &#39;&#39;}
-</pre></div>
-
-
-<p>So chardet is 73% confidence that the right encoding is "Windows-1252".  Now we can use
-this data to specify encoding type as we trying to read the file</p>
-<div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;my_data.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;Windows-1252&#39;</span><span class="p">))</span>
-</pre></div>
-
-
-<p>No errors! </p>
+<table>
+    <tr>
+            <th bgcolor="gray">SQL</th>
+            <th bgcolor="gray">Pandas</th>
+     </tr>
+        <tr>
+            <td>select * from airports</td>
+            <td>airports</td>
+        </tr>
+        <tr>
+            <td>select * from airports limit 3</td>
+            <td>airports.head(3)</td>
+        </tr>
+        <tr>
+            <td>select id from airports where ident = 'KLAX'</td>
+            <td>airports[airports.ident == 'KLAX'].id</td>
+        </tr>
+        <tr>
+            <td>select distinct type from airport</td>
+            <td>airports.type.unique()</td>
+        </tr>
+        <tr>
+            <td>select * from airports where iso_region = 'US-CA' and type = 'seaplane_base'</td>
+            <td>airports[(airports.iso_region == 'US-CA') & (airports.type == 'seaplane_base')]</td>
+        </tr>
+        <tr>
+            <td>select ident, name, municipality from airports where iso_region = 'US-CA' and type = 'large_airport'</td>
+            <td>airports[(airports.iso_region == 'US-CA') & (airports.type == 'large_airport')][['ident', 'name', 'municipality']]</td>
+        </tr>
+        <tr>
+            <td>select * from airport_freq where airport_ident = 'KLAX' order by type</td>
+            <td>airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type')</td>
+        </tr>        
+        <tr>
+            <td>select * from airport_freq where airport_ident = 'KLAX' order by type desc</td>
+            <td>airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type', ascending=False)</td>
+        </tr>        
+        <tr>
+            <td>select * from airports where type in ('heliport', 'balloonport')</td>
+            <td>airports[airports.type.isin(['heliport', 'balloonport'])]</td>
+        </tr>        
+        <tr>
+            <td>select * from airports where type not in ('heliport', 'balloonport')</td>
+            <td>airports[~airports.type.isin(['heliport', 'balloonport'])]</td>
+        </tr>         
+        <tr>
+            <td>select iso_country, type, count(&ast;) from airports group by iso_country, type order by iso_country, type</td>
+            <td>airports.groupby(['iso_country', 'type']).size()</td>
+        </tr>         
+        <tr>
+            <td>select iso_country, type, count(&ast;) from airports group by iso_country, type order by iso_country, count(&ast;) desc</td>
+            <td>airports.groupby(['iso_country', 'type']).size().to_frame('size').reset_index().sort_values(['iso_country', 'size'], ascending=[True, False])</td>
+        </tr>
+        <tr>
+            <td>select type, count(&ast;) from airports where iso_country = 'US' group by type having count(&ast;) > 1000 order by count(&ast;) desc</td>
+            <td>airports[airports.iso_country == 'US'].groupby('type').filter(lambda g: len(g) > 1000).groupby('type').size().sort_values(ascending=False)</td>
+        </tr>
+        <tr>
+            <td>select iso_country from by_country order by size desc limit 10</td>
+            <td>by_country.nlargest(10, columns='airport_count')</td>
+        </tr>
+        <tr>
+            <td>select iso_country from by_country order by size desc limit 10 offset 10</td>
+            <td>by_country.nlargest(20, columns='airport_count').tail(10)</td>
+        </tr>
+        <tr>
+            <td>select max(length_ft), min(length_ft), mean(length_ft), median(length_ft) from runways</td>
+            <td>runways.agg({'length_ft': ['min', 'max', 'mean', 'median']})</td>
+        </tr>
+        <tr>
+            <td>select airport_ident, type, description, frequency_mhz from airport_freq join airports on airport_freq.airport_ref = airports.id where airports.ident = 'KLAX'</td>
+            <td>airport_freq.merge(airports[airports.ident == 'KLAX'][['id']], left_on='airport_ref', right_on='id', how='inner')[['airport_ident', 'type', 'description', 'frequency_mhz']]</td>
+        </tr>        
+        <tr>
+            <td>
+                create table heroes (id integer, name text);<br>
+                insert into heroes values (1, 'Harry Potter');<br>
+                insert into heroes values (2, 'Ron Weasley');<br>
+                insert into heroes values (3, 'Hermione Granger');
+            </td>
+            <td>
+                df1 = pd.DataFrame({'id': [1, 2], 'name': ['Harry Potter', 'Ron Weasley']})<br>
+                df2 = pd.DataFrame({'id': [3], 'name': ['Hermione Granger']})<br>
+                pd.concat([df1, df2]).reset_index(drop=True)
+            </td>
+        </tr>        
+        <tr>
+            <td>update airports set home_link = 'http://www.lawa.org/welcomelax.aspx' where ident == 'KLAX'</td>
+            <td>airports.loc[airports['ident'] == 'KLAX', 'home_link'] = 'http://www.lawa.org/welcomelax.aspx'</td>
+        </tr>
+        <tr>
+            <td>delete from lax_freq where type = 'MISC'</td>
+            <td>
+                lax_freq = lax_freq[lax_freq.type != 'MISC'<br>
+                lax_freq.drop(lax_freq[lax_freq.type == 'MISC'].index)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+</table>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
         <li><a href="./fix_spelling_errors.html">How to remove typos from entity names via fuzzywuzzy module in python.</a></li>
-        <li><a href="./mapping_sql_to_pandas.html">Mapping SQL to Pandas</a></li>
+        <li><a href="./encoding_csv_file_python.html">How to detect encoding of CSV file in python</a></li>
     </ul>
 </section>
         </article>

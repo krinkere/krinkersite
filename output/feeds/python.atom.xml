@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - Python</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/python.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-04-03T13:46:00-04:00</updated><entry><title>Mapping SQL to Pandas</title><link href="https://krinkere.github.io/krinkersite/mapping_sql_to_pandas.html" rel="alternate"></link><published>2018-04-03T13:15:00-04:00</published><updated>2018-04-03T13:46:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-03:/krinkersite/mapping_sql_to_pandas.html</id><summary type="html">&lt;p&gt;Illustration of common SQL operations mapped to Pandas.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+table {
+    border: 1px solid black;
+}
+td {
+    border: 10px solid black;
+}
+
+&lt;/style&gt;
+
+&lt;table&gt;
+    &lt;tr&gt;
+            &lt;th bgcolor="gray"&gt;SQL&lt;/th&gt;
+            &lt;th bgcolor="gray"&gt;Pandas&lt;/th&gt;
+     &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select * from airports&lt;/td&gt;
+            &lt;td&gt;airports&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select * from airports limit 3&lt;/td&gt;
+            &lt;td&gt;airports.head(3)&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select id from airports where ident = 'KLAX'&lt;/td&gt;
+            &lt;td&gt;airports[airports.ident == 'KLAX'].id&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select distinct type from airport&lt;/td&gt;
+            &lt;td&gt;airports.type.unique()&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select * from airports where iso_region = 'US-CA' and type = 'seaplane_base'&lt;/td&gt;
+            &lt;td&gt;airports[(airports.iso_region == 'US-CA') &amp; (airports.type == 'seaplane_base')]&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select ident, name, municipality from airports where iso_region = 'US-CA' and type = 'large_airport'&lt;/td&gt;
+            &lt;td&gt;airports[(airports.iso_region == 'US-CA') &amp; (airports.type == 'large_airport')][['ident', 'name', 'municipality']]&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select * from airport_freq where airport_ident = 'KLAX' order by type&lt;/td&gt;
+            &lt;td&gt;airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type')&lt;/td&gt;
+        &lt;/tr&gt;        
+        &lt;tr&gt;
+            &lt;td&gt;select * from airport_freq where airport_ident = 'KLAX' order by type desc&lt;/td&gt;
+            &lt;td&gt;airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type', ascending=False)&lt;/td&gt;
+        &lt;/tr&gt;        
+        &lt;tr&gt;
+            &lt;td&gt;select * from airports where type in ('heliport', 'balloonport')&lt;/td&gt;
+            &lt;td&gt;airports[airports.type.isin(['heliport', 'balloonport'])]&lt;/td&gt;
+        &lt;/tr&gt;        
+        &lt;tr&gt;
+            &lt;td&gt;select * from airports where type not in ('heliport', 'balloonport')&lt;/td&gt;
+            &lt;td&gt;airports[~airports.type.isin(['heliport', 'balloonport'])]&lt;/td&gt;
+        &lt;/tr&gt;         
+        &lt;tr&gt;
+            &lt;td&gt;select iso_country, type, count(&amp;ast;) from airports group by iso_country, type order by iso_country, type&lt;/td&gt;
+            &lt;td&gt;airports.groupby(['iso_country', 'type']).size()&lt;/td&gt;
+        &lt;/tr&gt;         
+        &lt;tr&gt;
+            &lt;td&gt;select iso_country, type, count(&amp;ast;) from airports group by iso_country, type order by iso_country, count(&amp;ast;) desc&lt;/td&gt;
+            &lt;td&gt;airports.groupby(['iso_country', 'type']).size().to_frame('size').reset_index().sort_values(['iso_country', 'size'], ascending=[True, False])&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select type, count(&amp;ast;) from airports where iso_country = 'US' group by type having count(&amp;ast;) &gt; 1000 order by count(&amp;ast;) desc&lt;/td&gt;
+            &lt;td&gt;airports[airports.iso_country == 'US'].groupby('type').filter(lambda g: len(g) &gt; 1000).groupby('type').size().sort_values(ascending=False)&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select iso_country from by_country order by size desc limit 10&lt;/td&gt;
+            &lt;td&gt;by_country.nlargest(10, columns='airport_count')&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select iso_country from by_country order by size desc limit 10 offset 10&lt;/td&gt;
+            &lt;td&gt;by_country.nlargest(20, columns='airport_count').tail(10)&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select max(length_ft), min(length_ft), mean(length_ft), median(length_ft) from runways&lt;/td&gt;
+            &lt;td&gt;runways.agg({'length_ft': ['min', 'max', 'mean', 'median']})&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;select airport_ident, type, description, frequency_mhz from airport_freq join airports on airport_freq.airport_ref = airports.id where airports.ident = 'KLAX'&lt;/td&gt;
+            &lt;td&gt;airport_freq.merge(airports[airports.ident == 'KLAX'][['id']], left_on='airport_ref', right_on='id', how='inner')[['airport_ident', 'type', 'description', 'frequency_mhz']]&lt;/td&gt;
+        &lt;/tr&gt;        
+        &lt;tr&gt;
+            &lt;td&gt;
+                create table heroes (id integer, name text);&lt;br&gt;
+                insert into heroes values (1, 'Harry Potter');&lt;br&gt;
+                insert into heroes values (2, 'Ron Weasley');&lt;br&gt;
+                insert into heroes values (3, 'Hermione Granger');
+            &lt;/td&gt;
+            &lt;td&gt;
+                df1 = pd.DataFrame({'id': [1, 2], 'name': ['Harry Potter', 'Ron Weasley']})&lt;br&gt;
+                df2 = pd.DataFrame({'id': [3], 'name': ['Hermione Granger']})&lt;br&gt;
+                pd.concat([df1, df2]).reset_index(drop=True)
+            &lt;/td&gt;
+        &lt;/tr&gt;        
+        &lt;tr&gt;
+            &lt;td&gt;update airports set home_link = 'http://www.lawa.org/welcomelax.aspx' where ident == 'KLAX'&lt;/td&gt;
+            &lt;td&gt;airports.loc[airports['ident'] == 'KLAX', 'home_link'] = 'http://www.lawa.org/welcomelax.aspx'&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;delete from lax_freq where type = 'MISC'&lt;/td&gt;
+            &lt;td&gt;
+                lax_freq = lax_freq[lax_freq.type != 'MISC'&lt;br&gt;
+                lax_freq.drop(lax_freq[lax_freq.type == 'MISC'].index)
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+&lt;/table&gt;</content><category term="python"></category><category term="pandas"></category></entry></feed>
