@@ -284,115 +284,187 @@ Cloud. Big Data. Analytics... and so on            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <style>
-table {
+.table-borders td,
+.table-borders th
+{
     border: 1px solid black;
+    padding: 10px;
 }
-td {
-    border: 10px solid black;
+
+span.bold-red {
+    color: red;
+    font-weight: bold;
 }
 
 </style>
 
-<table>
+<table class="table-borders">
     <tr>
             <th bgcolor="gray">SQL</th>
             <th bgcolor="gray">Pandas</th>
      </tr>
         <tr>
-            <td>select * from airports</td>
-            <td>airports</td>
+            <td>
+                select<br>
+                *<br>
+                from table_name
+             </td>
+            <td>df</td>
         </tr>
         <tr>
-            <td>select * from airports limit 3</td>
-            <td>airports.head(3)</td>
+            <td>
+                select<br>
+                *<br>
+                from table_name<br>
+                <span class="bold-red">limit</span> 3</td>
+            <td>df.head(3)</td>
         </tr>
         <tr>
-            <td>select id from airports where ident = 'KLAX'</td>
-            <td>airports[airports.ident == 'KLAX'].id</td>
+            <td>
+                select<br>
+                col_name_1<br>
+                from table_name<br>
+                <span class="bold-red">where</span> col_name_2 = 'value'</td>
+            <td>df[df.col_name_2 == 'value'].col_name_1</td>
         </tr>
         <tr>
-            <td>select distinct type from airport</td>
-            <td>airports.type.unique()</td>
+            <td>
+                select<br>
+                <span class="bold-red">distinct</span> col_name_1<br>
+                from table_name</td>
+            <td>df.col_name_1.unique()</td>
         </tr>
         <tr>
-            <td>select * from airports where iso_region = 'US-CA' and type = 'seaplane_base'</td>
-            <td>airports[(airports.iso_region == 'US-CA') & (airports.type == 'seaplane_base')]</td>
+            <td>
+                select<br>
+                *<br>
+                 from table_name<br>
+                 where col_name_1 = 'val_1' <span class="bold-red">and</span> col_name_2 = 'val_2'</td>
+            <td>df[(df.col_name_1 == 'val_1') & (df.col_name_2 == 'val_2')]</td>
         </tr>
         <tr>
-            <td>select ident, name, municipality from airports where iso_region = 'US-CA' and type = 'large_airport'</td>
-            <td>airports[(airports.iso_region == 'US-CA') & (airports.type == 'large_airport')][['ident', 'name', 'municipality']]</td>
+            <td>select<br>
+            col_name_1, col_name_3, col_name_3<br>
+            from table_name<br>
+            where col_name_4 = 'val_1' <span class="bold-red">and</span> col_name_5 = 'val_2'</td>
+            <td>df[(df.col_name_4 == 'val_1') & (df.col_name_5 == 'val_2')][['col_name_1', 'col_name_2', 'col_name_3']]</td>
         </tr>
         <tr>
-            <td>select * from airport_freq where airport_ident = 'KLAX' order by type</td>
-            <td>airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type')</td>
+            <td>select<br>
+            *<br>
+            from table_name<br>
+            where col_name_1 = 'value'<br>
+            <span class="bold-red">order by</span> col_name_2</td>
+            <td>df[df.col_name_1 == 'value'].sort_values('col_name_2')</td>
+        </tr>
+         <tr>
+            <td>select<br>
+            *<br>
+            from table_name<br>
+            where col_name_1 = 'value'<br>
+            <span class="bold-red">order by</span> col_name_2 <span class="bold-red">desc</span></td>
+            <td>df[df.col_name_1 == 'value'].sort_values('col_name_2', ascending=False)</td>
         </tr>        
         <tr>
-            <td>select * from airport_freq where airport_ident = 'KLAX' order by type desc</td>
-            <td>airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type', ascending=False)</td>
+            <td>select<br>
+            *<br>
+            from table_name<br>
+            where col_name <span class="bold-red">in</span> ('val_1', 'val_2')</td>
+            <td>df[df.col_name.isin(['val_1', 'val_2'])]</td>
         </tr>        
         <tr>
-            <td>select * from airports where type in ('heliport', 'balloonport')</td>
-            <td>airports[airports.type.isin(['heliport', 'balloonport'])]</td>
-        </tr>        
+            <td>select<br>
+            *<br>
+            from table_name<br>
+            where col_name <span class="bold-red">not in</span> ('val_1', 'val_2')</td>
+            <td>df[~df.col_name.isin(['val_1', 'val_2'])]</td>
+        </tr>   
         <tr>
-            <td>select * from airports where type not in ('heliport', 'balloonport')</td>
-            <td>airports[~airports.type.isin(['heliport', 'balloonport'])]</td>
+            <td>select<br>
+            col_name_1, col_name_2, count(&ast;)<br>
+            from table_name<br>
+            <span class="bold-red">group by</span> col_name_1, col_name_2<br>
+            <span class="bold-red">order by</span> col_name_1, col_name_2</td>
+            <td>df.groupby(['col_name_1', 'col_name_2']).size()</td>
         </tr>         
         <tr>
-            <td>select iso_country, type, count(&ast;) from airports group by iso_country, type order by iso_country, type</td>
-            <td>airports.groupby(['iso_country', 'type']).size()</td>
-        </tr>         
+            <td>select<br>
+            col_name_1, col_name_2, count(&ast;)<br>
+            from table_name<br>
+            <span class="bold-red">group by</span> col_name_1, col_name_2<br>
+            <span class="bold-red">order by</span> col_name_1, count(&ast;) desc</td>
+            <td>df.groupby(['col_name_1', 'col_name_2']).size().to_frame('size').reset_index().sort_values(['col_name_1', 'size'], ascending=[True, False])</td>
+        </tr>      
         <tr>
-            <td>select iso_country, type, count(&ast;) from airports group by iso_country, type order by iso_country, count(&ast;) desc</td>
-            <td>airports.groupby(['iso_country', 'type']).size().to_frame('size').reset_index().sort_values(['iso_country', 'size'], ascending=[True, False])</td>
+            <td>select<br>
+            col_name_1, count(&ast;)<br>
+            from table_name<br>
+            where col_name_2 = 'val_1'<br>
+            group by col_name_1<br>
+            <span class="bold-red">having</span> count(&ast;) > 1000<br>
+            order by count(&ast;) desc</td>
+            <td>df[df.col_name_2 == 'val_1'].groupby('col_name_1').filter(lambda g: len(g) > 1000).groupby('col_name_1').size().sort_values(ascending=False)</td>
         </tr>
         <tr>
-            <td>select type, count(&ast;) from airports where iso_country = 'US' group by type having count(&ast;) > 1000 order by count(&ast;) desc</td>
-            <td>airports[airports.iso_country == 'US'].groupby('type').filter(lambda g: len(g) > 1000).groupby('type').size().sort_values(ascending=False)</td>
+            <td>select<br>
+            col_name<br>
+            from table_name<br>
+            order by size<br>
+            <span class="bold-red">desc limit</span> 10</td>
+            <td>df.nlargest(10, columns='col_name')</td>
         </tr>
         <tr>
-            <td>select iso_country from by_country order by size desc limit 10</td>
-            <td>by_country.nlargest(10, columns='airport_count')</td>
+            <td>select<br>
+            col_name<br>
+            from table_name<br>
+            order by size<br>
+            <span class="bold-red">desc limit</span> 10
+            <span class="bold-red">offset 10</span></td>
+            <td>df.nlargest(<span class="bold-red">20</span>, columns='col_name').tail(10)</td>
         </tr>
         <tr>
-            <td>select iso_country from by_country order by size desc limit 10 offset 10</td>
-            <td>by_country.nlargest(20, columns='airport_count').tail(10)</td>
+            <td>select<br>
+            <span class="bold-red">max</span>(col_name), <span class="bold-red">min</span>(col_name), <span class="bold-red">mean</span>(col_name), <span class="bold-red">median</span>(col_name)<br>
+            from table_name</td>
+            <td>df.agg({'col_name': ['min', 'max', 'mean', 'median']})</td>
         </tr>
         <tr>
-            <td>select max(length_ft), min(length_ft), mean(length_ft), median(length_ft) from runways</td>
-            <td>runways.agg({'length_ft': ['min', 'max', 'mean', 'median']})</td>
-        </tr>
-        <tr>
-            <td>select airport_ident, type, description, frequency_mhz from airport_freq join airports on airport_freq.airport_ref = airports.id where airports.ident = 'KLAX'</td>
-            <td>airport_freq.merge(airports[airports.ident == 'KLAX'][['id']], left_on='airport_ref', right_on='id', how='inner')[['airport_ident', 'type', 'description', 'frequency_mhz']]</td>
+            <td>select<br>
+            col_name_1, col_name_2, col_name_3, col_name_4<br>
+            from table_name_1<br>
+            <span class="bold-red">join</span> table_name_2<br>
+            on table_name_1.col_name_id_1 = table_name_2.col_name_id_2<br>
+            where table_name_2.col_name = 'val'</td>
+            <td>df1.merge(df2[df2.col_name == 'val'][['col_name_id_2']], left_on='col_name_id_1', right_on='col_name_id_2', how='inner')[['col_name_1', 'col_name_2', 'col_name_3', 'col_name_4']]</td>
         </tr>        
         <tr>
             <td>
-                create table heroes (id integer, name text);<br>
-                insert into heroes values (1, 'Harry Potter');<br>
-                insert into heroes values (2, 'Ron Weasley');<br>
-                insert into heroes values (3, 'Hermione Granger');
+                <span class="bold-red">create</span> table table_name (col_name_1 integer, col_name_2 text);<br>
+                <span class="bold-red">insert</span> into table_name values (1, 'val_1');<br>
+                insert into table_name values (2, 'val_2');<br>
+                insert into table_name values (3, 'val_3');
             </td>
             <td>
-                df1 = pd.DataFrame({'id': [1, 2], 'name': ['Harry Potter', 'Ron Weasley']})<br>
-                df2 = pd.DataFrame({'id': [3], 'name': ['Hermione Granger']})<br>
+                df1 = pd.DataFrame({'id': [1, 2], 'name': ['val_1', 'val_2']})<br>
+                df2 = pd.DataFrame({'id': [3], 'name': ['val_3']})<br>
                 pd.concat([df1, df2]).reset_index(drop=True)
             </td>
         </tr>        
         <tr>
-            <td>update airports set home_link = 'http://www.lawa.org/welcomelax.aspx' where ident == 'KLAX'</td>
-            <td>airports.loc[airports['ident'] == 'KLAX', 'home_link'] = 'http://www.lawa.org/welcomelax.aspx'</td>
+            <td><span class="bold-red">update</span><br>
+            table_name<br>
+            set col_name_1 = 'val_1'<br>
+            where col_name_2 == 'val_2'</td>
+            <td>df.loc[df['col_name_2'] == 'val_2', 'col_name_1'] = 'val_1'</td>
         </tr>
         <tr>
-            <td>delete from lax_freq where type = 'MISC'</td>
+            <td><span class="bold-red">delete</span><br>
+            from table_name<br>
+            where col_name = 'val'</td>
             <td>
-                lax_freq = lax_freq[lax_freq.type != 'MISC'<br>
-                lax_freq.drop(lax_freq[lax_freq.type == 'MISC'].index)
+                df = df[df.col_name != 'val'<br>
+                df.drop(df[df.col_name == 'val'].index)
             </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
         </tr>
 </table>
             </div>
