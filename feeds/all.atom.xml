@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-04-03T13:46:00-04:00</updated><entry><title>Mapping SQL to Pandas</title><link href="https://krinkere.github.io/krinkersite/mapping_sql_to_pandas.html" rel="alternate"></link><published>2018-04-03T13:15:00-04:00</published><updated>2018-04-03T13:46:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-03:/krinkersite/mapping_sql_to_pandas.html</id><summary type="html">&lt;p&gt;Illustration of common SQL operations mapped to Pandas.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-04-10T10:30:00-04:00</updated><entry><title>How to connect to remote Oracle database from your python script</title><link href="https://krinkere.github.io/krinkersite/connect_to_oracle_via_python.html" rel="alternate"></link><published>2018-04-10T10:29:00-04:00</published><updated>2018-04-10T10:30:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-10:/krinkersite/connect_to_oracle_via_python.html</id><summary type="html">&lt;p&gt;How to set up your Linux environment to be able to connect to remote Oracle database from local Python script&lt;/p&gt;</summary><content type="html">&lt;p&gt;Not sure if this step is needed since Oracle Instant Client suppose to be back compatible, but I went ahead and installed client that matched Oracle instance that I was trying to connect to
+Determine Oracle version by running this command. Mine was 12.1.0.2.0&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;SELECT * FROM V$VERSION&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Download &lt;a href="http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html"&gt;Oracle Instant Client&lt;/a&gt;.
+I have Linux 86-64 so I used this &lt;a href="http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html"&gt;link&lt;/a&gt; to download RPM version.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install downloaded oracle instant client&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo yum install oracle-instantclient12.1-basic-12.1.0.2.0-1.x86_64.rpm
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Add oracle instant client to your PATH. Permanently since I don't have any other Oracle products that might have broken.:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo sh -c &amp;quot;echo /usr/lib/oracle/12.1/client64/lib &amp;gt; /etc/ld.so.conf.d/oracle-instantclient.conf&amp;quot;
+sudo ldconfig
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;At this point your environment is set. Now it is time to connect to it by installing cx_Oracle library in your python.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python -m pip install cx_Oracle --upgrade
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;That should do it. Now write a simple python script to get the version of the Oracle database that you are trying to connect to.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;cx_Oracle&lt;/span&gt;
+&lt;span class="n"&gt;ip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;specify_ip_or_hostname&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt;
+&lt;span class="n"&gt;SID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;specify_sid_or_schema&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;dsn_tns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cx_Oracle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;makedsn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SID&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# You might get these via environment variable to make thing secure&lt;/span&gt;
+&lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;password&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cx_Oracle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dsn_tns&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; 12.1.0.2.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;References:&lt;br&gt;
+&lt;a href="http://cx-oracle.readthedocs.io/en/latest/installation.html#oracle-instant-client-rpms"&gt;Installing cx_Oracle on Linux&lt;/a&gt;&lt;br&gt;
+&lt;a href="http://cx-oracle.readthedocs.io/en/latest/installation.html#quick-start-cx-oracle-installation"&gt;Quick cx_Oracle Install&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="oracle"></category></entry><entry><title>Mapping SQL to Pandas</title><link href="https://krinkere.github.io/krinkersite/mapping_sql_to_pandas.html" rel="alternate"></link><published>2018-04-03T13:15:00-04:00</published><updated>2018-04-03T13:46:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-03:/krinkersite/mapping_sql_to_pandas.html</id><summary type="html">&lt;p&gt;Illustration of common SQL operations mapped to Pandas.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .table-borders td,
 .table-borders th
 {
