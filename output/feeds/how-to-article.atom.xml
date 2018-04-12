@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-04-10T10:30:00-04:00</updated><entry><title>How to connect to remote Oracle database from your python script</title><link href="https://krinkere.github.io/krinkersite/connect_to_oracle_via_python.html" rel="alternate"></link><published>2018-04-10T10:29:00-04:00</published><updated>2018-04-10T10:30:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-10:/krinkersite/connect_to_oracle_via_python.html</id><summary type="html">&lt;p&gt;How to set up your Linux environment to be able to connect to remote Oracle database from local Python script&lt;/p&gt;</summary><content type="html">&lt;p&gt;Not sure if this step is needed since Oracle Instant Client suppose to be back compatible, but I went ahead and installed client that matched Oracle instance that I was trying to connect to
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on - How To article</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/how-to-article.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-04-11T08:22:00-04:00</updated><entry><title>How to install Spark and use it from python via pyspark</title><link href="https://krinkere.github.io/krinkersite/install_spark.html" rel="alternate"></link><published>2018-04-11T08:22:00-04:00</published><updated>2018-04-11T08:22:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-11:/krinkersite/install_spark.html</id><summary type="html">&lt;p&gt;How to install Spark on your Linux system, and use it from Python&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;Visit &lt;a href="http://spark.apache.org/downloads.html"&gt;Spark&lt;/a&gt; to download tgz version of spark with hadoop&lt;/li&gt;
+&lt;li&gt;Unzip and move it to /opt directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tar -xzf spark-2.3.0-bin-hadoop2.7.tgz
+$ mv spark-2.3.0-bin-hadoop2.7 /opt/spark-2.3.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Create sym link&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ln -s /opt/spark-2.3.0 /opt/spark
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Add it to bash&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;export SPARK_HOME=/opt/spark
+export PATH=$SPARK_HOME/bin:$PATH
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;At this point Spark is installed on your machine. Test it&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pyspark
+
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _&lt;span class="se"&gt;\ \/&lt;/span&gt; _ &lt;span class="se"&gt;\/&lt;/span&gt; _ &lt;span class="sb"&gt;`&lt;/span&gt;/ __/  &lt;span class="s1"&gt;&amp;#39;_/&lt;/span&gt;
+&lt;span class="s1"&gt;   /__ / .__/\_,_/_/ /_/\_\   version 2.3.0&lt;/span&gt;
+&lt;span class="s1"&gt;      /_/&lt;/span&gt;
+
+&lt;span class="s1"&gt;Using Python version 3.6.4 (default, Jan 16 2018 18:10:19)&lt;/span&gt;
+&lt;span class="s1"&gt;SparkSession available as &amp;#39;&lt;/span&gt;spark&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Connect it to your python scripts, by installing findspark to point python to the location of the Spark&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install findspark
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Install pyspark to be able to use Spark from python&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install pyspark
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Now you will be able to use Spark from your python scripts&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;findspark&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pyspark&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyspark.sql&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SQLContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Row&lt;/span&gt;
+
+&lt;span class="n"&gt;findspark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;spark_home&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/spark&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pyspark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SparkConf&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setAppName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tf_fraud&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;sc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pyspark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SparkContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;sqlctx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SQLContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;connection_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;jdbc:oracle:thin:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;@&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;SID&lt;/span&gt;
+
+&lt;span class="n"&gt;df_pyspark&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqlctx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;jdbc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;connection_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dbtable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;employee&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;oracle.jdbc.OracleDriver&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_pyspark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printSchema&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;cad_ser_nums&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df_pyspark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category><category term="spark"></category><category term="pyspark"></category></entry><entry><title>How to connect to remote Oracle database from your python script</title><link href="https://krinkere.github.io/krinkersite/connect_to_oracle_via_python.html" rel="alternate"></link><published>2018-04-10T10:29:00-04:00</published><updated>2018-04-10T10:30:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-04-10:/krinkersite/connect_to_oracle_via_python.html</id><summary type="html">&lt;p&gt;How to set up your Linux environment to be able to connect to remote Oracle database from local Python script&lt;/p&gt;</summary><content type="html">&lt;p&gt;Not sure if this step is needed since Oracle Instant Client suppose to be back compatible, but I went ahead and installed client that matched Oracle instance that I was trying to connect to
 Determine Oracle version by running this command. Mine was 12.1.0.2.0&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;SELECT * FROM V$VERSION&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
