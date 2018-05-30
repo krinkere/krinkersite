@@ -1,5 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-05-29T09:01:00-04:00</updated><entry><title>How to install Google Chrome on your Linux System</title><link href="https://krinkere.github.io/krinkersite/install_chrome_on_linux.html" rel="alternate"></link><published>2018-05-29T08:51:00-04:00</published><updated>2018-05-29T09:01:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-05-29:/krinkersite/install_chrome_on_linux.html</id><summary type="html">&lt;p&gt;How to install Google Chrome on your Linux system&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Enable Google Yum repository&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-05-30T13:05:00-04:00</updated><entry><title>How to move MariaDB data to another location</title><link href="https://krinkere.github.io/krinkersite/move_mariadb_data.html" rel="alternate"></link><published>2018-05-30T12:25:00-04:00</published><updated>2018-05-30T13:05:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-05-30:/krinkersite/move_mariadb_data.html</id><summary type="html">&lt;p&gt;Shows how to successfully move mariadb instance to another location&lt;/p&gt;</summary><content type="html">&lt;p&gt;I was recently working on an instance of MariaDB where I loaded almost 200GB of data. My /var folder 
+filled up almost to 90% and I got all sorts of warning logs about size limitations, etc. Before it turned into bigger issue, I decided to take proactive approach and move my data to another location.&lt;/p&gt;
+&lt;h2&gt;Verify current data directory location&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; mysql -u root -p
+
+&lt;span class="go"&gt;Welcome to the MariaDB monitor.  Commands end with ; or \g.&lt;/span&gt;
+&lt;span class="go"&gt;Your MariaDB connection id is 4&lt;/span&gt;
+&lt;span class="go"&gt;Server version: 10.1.33-MariaDB MariaDB Server&lt;/span&gt;
+
+&lt;span class="go"&gt;Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.&lt;/span&gt;
+
+&lt;span class="go"&gt;Type &amp;#39;help;&amp;#39; or &amp;#39;\h&amp;#39; for help. Type &amp;#39;\c&amp;#39; to clear the current input statement.&lt;/span&gt;
+
+&lt;span class="go"&gt;MariaDB [(none)]&amp;gt; select @@datadir;&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;| @@datadir                |&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;| /var/lib/mysql/ |&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;1 row in set (0.00 sec)&lt;/span&gt;
+
+&lt;span class="go"&gt;MariaDB [(none)]&amp;gt; exit&lt;/span&gt;
+&lt;span class="go"&gt;Bye&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Stop running mariadb instance&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo systemctl stop mariadb
+&lt;span class="gp"&gt;$&lt;/span&gt; sudo systemctl status mariadb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Double check if instance is running (Force kill any rogue mysql processes) and check if port 3306 is still occupied&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;  ps -elf&lt;span class="p"&gt;|&lt;/span&gt;grep mysql
+&lt;span class="gp"&gt;$&lt;/span&gt; netstat -apn &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="m"&gt;3306&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Move data to new location and back up old instance&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo rsync -av /var/lib/mysql /mnt/big_data
+&lt;span class="gp"&gt;$&lt;/span&gt; sudo mv /var/lib/mysql /var/lib/mysql.bak
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Edit configuration files to change the defaults.&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;&amp;quot;/etc/my.cnf&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;[mysqld]&lt;/span&gt;
+&lt;span class="go"&gt;datadir=/mnt/big_data/mysql/&lt;/span&gt;
+&lt;span class="go"&gt;socket=/mnt/big_data/mysql/mysql.sock&lt;/span&gt;
+
+&lt;span class="go"&gt;&amp;quot;/etc/my.cnf.d/client.cnf&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;[client]&lt;/span&gt;
+&lt;span class="go"&gt;port=3306&lt;/span&gt;
+&lt;span class="go"&gt;socket=/mnt/big_data/mysql/mysql.sock&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I also had to chmod  new directory, otherwise mariadb was failing since it could not write to the new location.&lt;/p&gt;
+&lt;h2&gt;Start it back up and make sure that new directory is in use&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo systemctl start mariadb
+&lt;span class="gp"&gt;$&lt;/span&gt; sudo systemctl status mariadb
+
+&lt;span class="gp"&gt;$&lt;/span&gt; mysql -u root -p
+&lt;span class="go"&gt;MariaDB [(none)]&amp;gt; select @@datadir;&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;| @@datadir                |&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;| /mnt/big_data/mysql/ |&lt;/span&gt;
+&lt;span class="go"&gt;+--------------------------+&lt;/span&gt;
+&lt;span class="go"&gt;1 row in set (0.00 sec)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="https://www.digitalocean.com/community/tutorials/how-to-change-a-mariadb-data-directory-to-a-new-location-on-centos-7"&gt;Partial Reference&lt;/a&gt;&lt;/p&gt;</content><category term="mariadb"></category><category term="linux"></category><category term="database"></category><category term="system"></category></entry><entry><title>How to install Google Chrome on your Linux System</title><link href="https://krinkere.github.io/krinkersite/install_chrome_on_linux.html" rel="alternate"></link><published>2018-05-29T08:51:00-04:00</published><updated>2018-05-29T09:01:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-05-29:/krinkersite/install_chrome_on_linux.html</id><summary type="html">&lt;p&gt;How to install Google Chrome on your Linux system&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Enable Google Yum repository&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;Create a file called /etc/yum.repos.d/google-chrome.repo and add the following lines of code to it.&lt;/li&gt;
 &lt;/ul&gt;
