@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Cloud. Big Data. Analytics... and so on</title>
+    <title>How to move MariaDB data to another location - Cloud. Big Data. Analytics... and so on</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -173,32 +173,43 @@ init_mathjax = function() {
 init_mathjax();
 </script>
 
+<link rel="canonical" href="./move_mariadb_data.html">
 
         <meta name="author" content="Al Krinker" />
+        <meta name="keywords" content="mariadb,linux,database,system" />
+        <meta name="description" content="Shows how to successfully move mariadb instance to another location" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Cloud. Big Data. Analytics... and so on"/>
-        <meta property="og:url" content="../../.."/>
-        <meta property="og:description" content="Cloud. Big Data. Analytics... and so on"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="How to move MariaDB data to another location"/>
+        <meta property="og:url" content="./move_mariadb_data.html"/>
+        <meta property="og:description" content="Shows how to successfully move mariadb instance to another location"/>
+        <meta property="article:published_time" content="2018-05-30" />
+            <meta property="article:section" content="How To article" />
+            <meta property="article:tag" content="mariadb" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:tag" content="database" />
+            <meta property="article:tag" content="system" />
+            <meta property="article:author" content="Al Krinker" />
 
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="../../../theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="../../../theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="./theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="../../../theme/css/pygments/native.css" rel="stylesheet">
-    <link href="../../../theme/tipuesearch/tipuesearch.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../theme/css/style.css" type="text/css"/>
-        <link href="../../../static/css/custom.css" rel="stylesheet">
+    <link href="./theme/css/pygments/native.css" rel="stylesheet">
+    <link href="./theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+        <link href="./static/css/custom.css" rel="stylesheet">
 
-        <link href="../../../feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Cloud. Big Data. Analytics... and so on ATOM Feed"/>
 
 
 
+        <link href="./feeds/how-to-article.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Cloud. Big Data. Analytics... and so on How To article ATOM Feed"/>
 
 </head>
 <body>
@@ -212,12 +223,12 @@ init_mathjax();
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="../../../" class="navbar-brand">
+            <a href="./" class="navbar-brand">
 Cloud. Big Data. Analytics... and so on            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="../../../pages/about.html">
+                         <li><a href="./pages/about.html">
                              About
                           </a></li>
             </ul>
@@ -227,7 +238,7 @@ Cloud. Big Data. Analytics... and so on            </a>
                   <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
                 </form></span>
               </li>
-              <li><a href="../../../archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+              <li><a href="./archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -238,12 +249,132 @@ Cloud. Big Data. Analytics... and so on            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-<h1>Archives for March 2016</h1>
+            <ol class="breadcrumb">
+                <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="./category/how-to-article.html" title="How To article">How To article</a></li>
+                <li class="active">How to move MariaDB data to another location</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./move_mariadb_data.html"
+                       rel="bookmark"
+                       title="Permalink to How to move MariaDB data to another location">
+                        How to move MariaDB data to another location
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-05-30T12:25:00-04:00"> Wed 30 May 2018</time>
+    </span>
 
-<dl>
-    <dt>Mon 07 March 2016</dt>
-    <dd><a href="../../../How_to_remove_files_added_to_git.html">How to remove files added to git</a></dd>
-</dl>
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="./tag/mariadb.html">mariadb</a>
+        /
+	<a href="./tag/linux.html">linux</a>
+        /
+	<a href="./tag/database.html">database</a>
+        /
+	<a href="./tag/system.html">system</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I was recently working on an instance of MariaDB where I loaded almost 200GB of data. My /var folder 
+filled up almost to 90% and I got all sorts of warning logs about size limitations, etc. Before it turned into bigger issue, I decided to take proactive approach and move my data to another location.</p>
+<h2>Verify current data directory location</h2>
+<div class="highlight"><pre><span></span><span class="gp">$</span> mysql -u root -p
+
+<span class="go">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span>
+<span class="go">Your MariaDB connection id is 4</span>
+<span class="go">Server version: 10.1.33-MariaDB MariaDB Server</span>
+
+<span class="go">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span>
+
+<span class="go">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span>
+
+<span class="go">MariaDB [(none)]&gt; select @@datadir;</span>
+<span class="go">+--------------------------+</span>
+<span class="go">| @@datadir                |</span>
+<span class="go">+--------------------------+</span>
+<span class="go">| /var/lib/mysql/ |</span>
+<span class="go">+--------------------------+</span>
+<span class="go">1 row in set (0.00 sec)</span>
+
+<span class="go">MariaDB [(none)]&gt; exit</span>
+<span class="go">Bye</span>
+</pre></div>
+
+
+<h2>Stop running mariadb instance</h2>
+<div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl stop mariadb
+<span class="gp">$</span> sudo systemctl status mariadb
+</pre></div>
+
+
+<h3>Double check if instance is running (Force kill any rogue mysql processes) and check if port 3306 is still occupied</h3>
+<div class="highlight"><pre><span></span><span class="gp">$</span>  ps -elf<span class="p">|</span>grep mysql
+<span class="gp">$</span> netstat -apn <span class="p">|</span> grep <span class="m">3306</span>
+</pre></div>
+
+
+<h2>Move data to new location and back up old instance</h2>
+<div class="highlight"><pre><span></span><span class="gp">$</span> sudo rsync -av /var/lib/mysql /mnt/big_data
+<span class="gp">$</span> sudo mv /var/lib/mysql /var/lib/mysql.bak
+</pre></div>
+
+
+<h2>Edit configuration files to change the defaults.</h2>
+<div class="highlight"><pre><span></span><span class="go">&quot;/etc/my.cnf&quot;</span>
+<span class="go">[mysqld]</span>
+<span class="go">datadir=/mnt/big_data/mysql/</span>
+<span class="go">socket=/mnt/big_data/mysql/mysql.sock</span>
+
+<span class="go">&quot;/etc/my.cnf.d/client.cnf&quot;</span>
+<span class="go">[client]</span>
+<span class="go">port=3306</span>
+<span class="go">socket=/mnt/big_data/mysql/mysql.sock</span>
+</pre></div>
+
+
+<p>I also had to chmod  new directory, otherwise mariadb was failing since it could not write to the new location.</p>
+<h2>Start it back up and make sure that new directory is in use</h2>
+<div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl start mariadb
+<span class="gp">$</span> sudo systemctl status mariadb
+
+<span class="gp">$</span> mysql -u root -p
+<span class="go">MariaDB [(none)]&gt; select @@datadir;</span>
+<span class="go">+--------------------------+</span>
+<span class="go">| @@datadir                |</span>
+<span class="go">+--------------------------+</span>
+<span class="go">| /mnt/big_data/mysql/ |</span>
+<span class="go">+--------------------------+</span>
+<span class="go">1 row in set (0.00 sec)</span>
+</pre></div>
+
+
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-change-a-mariadb-data-directory-to-a-new-location-on-centos-7">Partial Reference</a></p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="./How_to_find_a_file_containing_particular_text_in_Linux.html">How to find a file containing particular text in Linux</a></li>
+        <li><a href="./install_chrome_on_linux.html">How to install Google Chrome on your Linux System</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
@@ -260,46 +391,46 @@ Cloud. Big Data. Analytics... and so on            </a>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="../../../move_mariadb_data.html">How to move MariaDB data to another location</a></li>
-    <li class="list-group-item"><a href="../../../install_chrome_on_linux.html">How to install Google Chrome on your Linux System</a></li>
-    <li class="list-group-item"><a href="../../../layman_random_forrest.html">Layman's Introduction to Random Forests</a></li>
+    <li class="list-group-item"><a href="./move_mariadb_data.html">How to move MariaDB data to another location</a></li>
+    <li class="list-group-item"><a href="./install_chrome_on_linux.html">How to install Google Chrome on your Linux System</a></li>
+    <li class="list-group-item"><a href="./layman_random_forrest.html">Layman's Introduction to Random Forests</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
 
 <!-- Sidebar/Tag Cloud -->
 <li class="list-group-item">
-  <a href="../../../"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <a href="./"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group list-inline tagcloud" id="tags">
     <li class="list-group-item tag-4">
-      <a href="../../../tag/chrome.html">chrome</a>
+      <a href="./tag/chrome.html">chrome</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/data-science.html">data science</a>
+      <a href="./tag/data-science.html">data science</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="../../../tag/git.html">git</a>
+      <a href="./tag/git.html">git</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="../../../tag/linux.html">linux</a>
+      <a href="./tag/linux.html">linux</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/lucene.html">lucene</a>
+      <a href="./tag/lucene.html">lucene</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/machine-learning.html">machine learning</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/mariadb.html">mariadb</a>
+      <a href="./tag/mariadb.html">mariadb</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/pandas.html">pandas</a>
+      <a href="./tag/pandas.html">pandas</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="../../../tag/python.html">python</a>
+      <a href="./tag/python.html">python</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="../../../tag/search.html">search</a>
+      <a href="./tag/search.html">search</a>
     </li>
   </ul>
 </li>
@@ -332,15 +463,15 @@ Cloud. Big Data. Analytics... and so on            </a>
       </div>
    </div>
 </footer>
-<script src="../../../theme/js/jquery.min.js"></script>
+<script src="./theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../../../theme/js/bootstrap.min.js"></script>
+<script src="./theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="../../../theme/js/respond.min.js"></script>
+<script src="./theme/js/respond.min.js"></script>
 
-    <script src="../../../static/js/custom.js"></script>
+    <script src="./static/js/custom.js"></script>
 
 
 <!-- GitHub JS Code -->
@@ -349,7 +480,7 @@ $(document).ready(function () {
   if (!window.jXHR) {
     var jxhr = document.createElement('script');
     jxhr.type = 'text/javascript';
-    jxhr.src = '../../../theme/js/jXHR.js';
+    jxhr.src = './theme/js/jXHR.js';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(jxhr, s);
   }
@@ -362,7 +493,7 @@ $(document).ready(function () {
   });
 });
 </script>
-<script src="../../../theme/js/github.js" type="text/javascript"></script>
+<script src="./theme/js/github.js" type="text/javascript"></script>
 <!-- End GitHub JS Code -->
 
 <script type="text/javascript">
