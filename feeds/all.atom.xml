@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Cloud. Big Data. Analytics... and so on</title><link href="https://krinkere.github.io/krinkersite/" rel="alternate"></link><link href="https://krinkere.github.io/krinkersite/feeds/all.atom.xml" rel="self"></link><id>https://krinkere.github.io/krinkersite/</id><updated>2018-05-30T13:05:00-04:00</updated><entry><title>How to move MariaDB data to another location</title><link href="https://krinkere.github.io/krinkersite/move_mariadb_data.html" rel="alternate"></link><published>2018-05-30T12:25:00-04:00</published><updated>2018-05-30T13:05:00-04:00</updated><author><name>Al Krinker</name></author><id>tag:krinkere.github.io,2018-05-30:/krinkersite/move_mariadb_data.html</id><summary type="html">&lt;p&gt;Shows how to successfully move mariadb instance to another location&lt;/p&gt;</summary><content type="html">&lt;p&gt;I was recently working on an instance of MariaDB where I loaded almost 200GB of data. My /var folder 
 filled up almost to 90% and I got all sorts of warning logs about size limitations, etc. Before it turned into bigger issue, I decided to take proactive approach and move my data to another location.&lt;/p&gt;
+&lt;h2&gt;Useful command to check the size&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo du -sch *
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h2&gt;Verify current data directory location&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; mysql -u root -p
 
