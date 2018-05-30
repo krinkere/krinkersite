@@ -10,7 +10,10 @@ Summary: Shows how to successfully move mariadb instance to another location
 
 I was recently working on an instance of MariaDB where I loaded almost 200GB of data. My /var folder 
 filled up almost to 90% and I got all sorts of warning logs about size limitations, etc. Before it turned into bigger issue, I decided to take proactive approach and move my data to another location.
-
+## Useful command to check the size
+```console
+$ sudo du -sch *
+```
 ## Verify current data directory location
 ```console
 $ mysql -u root -p
