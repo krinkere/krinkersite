@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>How to find a file containing particular text in Linux - Cloud. Big Data. Analytics... and so on</title>
+    <title>How to move ElasticSearch data directory - Cloud. Big Data. Analytics... and so on</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -173,20 +173,21 @@ init_mathjax = function() {
 init_mathjax();
 </script>
 
-<link rel="canonical" href="./How_to_find_a_file_containing_particular_text_in_Linux.html">
+<link rel="canonical" href="./how_to_move_elasticsearch_data_directory.html">
 
         <meta name="author" content="Al Krinker" />
-        <meta name="keywords" content="linux" />
-        <meta name="description" content="Use grep to find file containing particular text." />
+        <meta name="keywords" content="elasticsearch,devops" />
+        <meta name="description" content="When directory of ES data is full, you need to move it in order to avoid index read-only error" />
 
         <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="How to find a file containing particular text in Linux"/>
-        <meta property="og:url" content="./How_to_find_a_file_containing_particular_text_in_Linux.html"/>
-        <meta property="og:description" content="Use grep to find file containing particular text."/>
-        <meta property="article:published_time" content="2014-05-27" />
+        <meta property="og:title" content="How to move ElasticSearch data directory"/>
+        <meta property="og:url" content="./how_to_move_elasticsearch_data_directory.html"/>
+        <meta property="og:description" content="When directory of ES data is full, you need to move it in order to avoid index read-only error"/>
+        <meta property="article:published_time" content="2018-06-08" />
             <meta property="article:section" content="How To article" />
-            <meta property="article:tag" content="linux" />
+            <meta property="article:tag" content="elasticsearch" />
+            <meta property="article:tag" content="devops" />
             <meta property="article:author" content="Al Krinker" />
 
 
@@ -249,16 +250,16 @@ Cloud. Big Data. Analytics... and so on            </a>
             <ol class="breadcrumb">
                 <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
                 <li><a href="./category/how-to-article.html" title="How To article">How To article</a></li>
-                <li class="active">How to find a file containing particular text in Linux</li>
+                <li class="active">How to move ElasticSearch data directory</li>
             </ol>
     <section id="content">
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="./How_to_find_a_file_containing_particular_text_in_Linux.html"
+                    <a href="./how_to_move_elasticsearch_data_directory.html"
                        rel="bookmark"
-                       title="Permalink to How to find a file containing particular text in Linux">
-                        How to find a file containing particular text in Linux
+                       title="Permalink to How to move ElasticSearch data directory">
+                        How to move ElasticSearch data directory
                     </a>
                 </h1>
             </header>
@@ -268,7 +269,7 @@ Cloud. Big Data. Analytics... and so on            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2014-05-27T10:41:00-04:00"> Tue 27 May 2014</time>
+        <i class="fa fa-calendar"></i><time datetime="2018-06-08T14:14:00-04:00"> Fri 08 June 2018</time>
     </span>
 
 
@@ -276,52 +277,42 @@ Cloud. Big Data. Analytics... and so on            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="./tag/linux.html">linux</a>
+	<a href="./tag/elasticsearch.html">elasticsearch</a>
+        /
+	<a href="./tag/devops.html">devops</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>Here is a quick example:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep -r <span class="s2">&quot;text string to search” directory-path</span>
+                <p>I was currently working on a project where I had to ingest massive amounts of data into ElasticSearch and I defaulted to /var/lib/elasticsearch to store all of my data. 
+I admit it was a mistake as I soon was starring at a 403 error from my cluster.</p>
+<div class="highlight"><pre><span></span><span class="go">{</span>
+<span class="go">  &quot;type&quot;: &quot;cluster_block_exception&quot;,</span>
+<span class="go">  &quot;reason&quot;: &quot;blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];&quot;</span>
+<span class="go">}</span>
 </pre></div>
 
 
-<p>To search for a string ‘logged in’ in all text (*.log) files located in /etc/networks/ directory for example, use:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep <span class="s2">&quot;logged in&quot;</span> /etc/networks/*.log
+<p>After quick google search and verifying that I was truly low on space by issusing df -h command, I had to move my data. Below are the steps that I took<br />
+1. Determine current location of data files, if in doubt (curl "localhost:9200/_nodes/settings?pretty=true")<br />
+2. Figure out where you have space and create a directory in it, let's say mega_elasticdata_dir<br />
+3. Stop ElastiSearch service: systemctl stop elasticsearch.service<br />
+4. Navigate to the current data directory determined in step 1 and move or copy files to new location (cp -RP * /mega_elasticdata_dir/)<br />
+5. Change ownership on new directory to elasticsearch (sudo chown -R elasticsearch:elasticsearch /mega_elasticdata_dir)<br />
+6. Edit data path inside of /etc/elasticsearch/elasticsearch.yml by changing parameter “path.data:”<br />
+7. Start ElasticSearch service again (systemctl start elasticsearch.service)<br />
+8. Check ElasticSearch log for any errors (tail -500f /var/log/elasticsearch/elasticsearch.log)<br /></p>
+<p>At this point, you have moved the data, but if you were to try to index any data, you would still get the same error message even now that you have plenty of space.
+This is because ElasticSearch has switched to read-only mode when it could not index more documents (when the hard drive got full). This is done to ensure 
+availability for read-only queries. ElasticSearch will not switch back automatically and you have to reset the flag manually by sending following command</p>
+<div class="highlight"><pre><span></span><span class="go">curl -XPUT -H &quot;Content-Type: application/json&quot; http://localhost:9200/_all/_settings -d &#39;{&quot;index.blocks.read_only_allow_delete&quot;: null}&#39;</span>
 </pre></div>
 
 
-<p>To search all subdirectories recursively, include -r option like so:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep -r <span class="s2">&quot;logged in&quot;</span> /etc/networks/*.log
-</pre></div>
-
-
-<p>The grep command prints the matching lines for each match. Pass -H option to print the filename only:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep -H -r <span class="s2">&quot;logged in&quot;</span> /etc/networks/*.log
-</pre></div>
-
-
-<p>To search for two or more words, use egrep:</p>
-<div class="highlight"><pre><span></span><span class="go">egrep -w -r &#39;logged in|logged out&#39; /etc/networks/*.log</span>
-</pre></div>
-
-
-<p>To hide warning spam of permission for certain directories being denied, etc, send them to dev/null:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep -w -r <span class="s1">&#39;logged in|logged out&#39;</span> /etc/networks/*.log <span class="m">2</span>&gt;/dev/null
-</pre></div>
-
-
-<p>To make it case insensitive, use -i option:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> grep -i <span class="s2">&quot;logged in&quot;</span> /etc/networks/*.log
-</pre></div>
+<p>References:<br />
+<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html">ElasticSearch Settings</a><br />
+<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/disk-allocator.html">Disk Allocator</a></p>
             </div>
             <!-- /.entry-content -->
-<section class="well" id="related-posts">
-    <h4>Related Posts:</h4>
-    <ul>
-        <li><a href="./install_chrome_on_linux.html">How to install Google Chrome on your Linux System</a></li>
-        <li><a href="./move_mariadb_data.html">How to move MariaDB data to another location</a></li>
-    </ul>
-</section>
         </article>
     </section>
 
