@@ -1,0 +1,2815 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Automated Feature Engineering via Featuretools - Cloud. Big Data. Analytics... and so on</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
+<link rel="canonical" href="./featuretools.html">
+
+        <meta name="author" content="Al Krinker" />
+        <meta name="keywords" content="python,featuretools,feature engineering,data science" />
+        <meta name="description" content="How to automatically create machine learning features via Featuretools" />
+
+        <meta property="og:site_name" content="Cloud. Big Data. Analytics... and so on" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Automated Feature Engineering via Featuretools"/>
+        <meta property="og:url" content="./featuretools.html"/>
+        <meta property="og:description" content="How to automatically create machine learning features via Featuretools"/>
+        <meta property="article:published_time" content="2018-06-20" />
+            <meta property="article:section" content="data science" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="featuretools" />
+            <meta property="article:tag" content="feature engineering" />
+            <meta property="article:tag" content="data science" />
+            <meta property="article:author" content="Al Krinker" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/native.css" rel="stylesheet">
+    <link href="./theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+        <link href="./static/css/custom.css" rel="stylesheet">
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Cloud. Big Data. Analytics... and so on ATOM Feed"/>
+
+
+
+        <link href="./feeds/data-science.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Cloud. Big Data. Analytics... and so on data science ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+Cloud. Big Data. Analytics... and so on            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="./archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="." title="Cloud. Big Data. Analytics... and so on"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="./category/data-science.html" title="data science">data science</a></li>
+                <li class="active">Automated Feature Engineering via Featuretools</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./featuretools.html"
+                       rel="bookmark"
+                       title="Permalink to Automated Feature Engineering via Featuretools">
+                        Automated Feature Engineering via Featuretools
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-06-20T10:26:00-04:00"> Wed 20 June 2018</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="./tag/python.html">python</a>
+        /
+	<a href="./tag/featuretools.html">featuretools</a>
+        /
+	<a href="./tag/feature-engineering.html">feature engineering</a>
+        /
+	<a href="./tag/data-science.html">data science</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h1>Take aways</h1>
+<ul>
+<li>Feature engineering, also known as feature creation, is the process of constructing new features from existing data to train a machine learning model.</li>
+<li>Feature engineering means building additional features out of existing data which is often spread across multiple related tables. Feature engineering requires extracting the relevant information from the data and getting it into a single table which can then be used to train a machine learning model.</li>
+<li>We can group the operations of feature creation into two categories: transformations and aggregations. A transformation acts on a single table by creating new features out of one or more of the existing columns. An aggregations are performed across tables, and use a one-to-many relationship to group observations and then calculate statistics.</li>
+<li>Aggregation operations are not difficult by themselves, but if we have hundreds of variables spread across dozens of tables, this process is not feasible to do by hand.</li>
+<li>Fortunately, featuretools is exactly the solution we are looking for. This open-source Python library will automatically create many features from a set of related tables.</li>
+</ul>
+<p>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduction:-Automated-Feature-Engineering">Introduction: Automated Feature Engineering<a class="anchor-link" href="#Introduction:-Automated-Feature-Engineering">&#182;</a></h1><p>In this notebook, we will look at an exciting development in data science: automated feature engineering. A machine learning model can only learn from the data we give it, and making sure that data is relevant to the task is one of the most crucial steps in the machine learning pipeline (this is made clear in the excellent paper <a href="https://homes.cs.washington.edu/~pedrod/papers/cacm12.pdf">"A Few Useful Things to Know about Machine Learning"</a>).</p>
+<p>However, manual feature engineering is a tedious task and is limited by both human imagination - there are only so many features we can think to create - and by time - creating new features is time-intensive. Ideally, there would be an objective method to create an array of diverse new candidate features that we can then use for a machine learning task. This process is meant to not replace the data scientist, but to make her job easier and allowing her to supplement domain knowledge with an automated workflow.</p>
+<p>In this notebook, we will walk through an implementation of using <a href="https://www.featuretools.com/">Featuretools</a>, an open-source Python library for automatically creating features with relational data (where the data is in structured tables). Although there are now many efforts working to enable automated model selection and hyperparameter tuning, there has been a lack of automating work on the feature engineering aspect of the pipeline. This library seeks to close that gap and the general methodology has been proven effective in both <a href="https://github.com/HDI-Project/Data-Science-Machine">machine learning competitions with the data science machine</a> and <a href="https://www.featurelabs.com/blog/predicting-credit-card-fraud/">business use cases</a>.</p>
+<h2 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">&#182;</a></h2><p>To show the basic idea of featuretools we will use an example dataset consisting of three tables:</p>
+<ul>
+<li><code>clients</code>: information about clients at a credit union</li>
+<li><code>loans</code>: previous loans taken out by the clients</li>
+<li><code>payments</code>: payments made/missed on the previous loans</li>
+</ul>
+<p>The general problem of feature engineering is taking disparate data, often distributed across multiple tables, and combining it into a single table that can be used for training a machine learning model. Featuretools has the ability to do this for us, creating many new candidate features with minimal effort. These features are combined into a single table that can then be passed on to our model.</p>
+<p>First, let's load in the data and look at the problem we are working with.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Run this if featuretools is not already installed</span>
+<span class="c1"># !pip install -U featuretools</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># pandas and numpy for data manipulation</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># featuretools for automated feature engineering</span>
+<span class="kn">import</span> <span class="nn">featuretools</span> <span class="k">as</span> <span class="nn">ft</span>
+
+<span class="c1"># ignore warnings from pandas</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read in the data</span>
+<span class="n">clients</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/clients.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;joined&#39;</span><span class="p">])</span>
+<span class="n">loans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/loans.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;loan_start&#39;</span><span class="p">,</span> <span class="s1">&#39;loan_end&#39;</span><span class="p">])</span>
+<span class="n">payments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/payments.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;payment_date&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clients</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>joined</th>
+      <th>income</th>
+      <th>credit_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>46109</td>
+      <td>2002-04-16</td>
+      <td>172677</td>
+      <td>527</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>49545</td>
+      <td>2007-11-14</td>
+      <td>104564</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41480</td>
+      <td>2013-03-11</td>
+      <td>122607</td>
+      <td>585</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>46180</td>
+      <td>2001-11-06</td>
+      <td>43851</td>
+      <td>562</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25707</td>
+      <td>2006-10-06</td>
+      <td>211422</td>
+      <td>621</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>loan_type</th>
+      <th>loan_amount</th>
+      <th>repaid</th>
+      <th>loan_id</th>
+      <th>loan_start</th>
+      <th>loan_end</th>
+      <th>rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>254</th>
+      <td>29841</td>
+      <td>cash</td>
+      <td>4718</td>
+      <td>0</td>
+      <td>11175</td>
+      <td>2014-03-08</td>
+      <td>2015-09-13</td>
+      <td>2.74</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>26326</td>
+      <td>other</td>
+      <td>10902</td>
+      <td>1</td>
+      <td>11559</td>
+      <td>2014-09-06</td>
+      <td>2016-11-14</td>
+      <td>6.73</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>41480</td>
+      <td>cash</td>
+      <td>12581</td>
+      <td>1</td>
+      <td>11461</td>
+      <td>2009-10-29</td>
+      <td>2011-07-08</td>
+      <td>1.94</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>49624</td>
+      <td>cash</td>
+      <td>8621</td>
+      <td>0</td>
+      <td>10454</td>
+      <td>2014-07-26</td>
+      <td>2015-12-29</td>
+      <td>3.18</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>49545</td>
+      <td>other</td>
+      <td>4131</td>
+      <td>0</td>
+      <td>10939</td>
+      <td>2008-10-13</td>
+      <td>2010-02-26</td>
+      <td>4.07</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>49624</td>
+      <td>credit</td>
+      <td>11219</td>
+      <td>1</td>
+      <td>11132</td>
+      <td>2013-08-12</td>
+      <td>2016-03-15</td>
+      <td>3.77</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>32726</td>
+      <td>credit</td>
+      <td>7499</td>
+      <td>1</td>
+      <td>10285</td>
+      <td>2012-10-07</td>
+      <td>2015-03-12</td>
+      <td>2.72</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>26326</td>
+      <td>credit</td>
+      <td>5275</td>
+      <td>0</td>
+      <td>11072</td>
+      <td>2014-11-11</td>
+      <td>2016-07-17</td>
+      <td>1.45</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>48177</td>
+      <td>cash</td>
+      <td>6521</td>
+      <td>0</td>
+      <td>11235</td>
+      <td>2014-07-12</td>
+      <td>2016-02-22</td>
+      <td>6.17</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>46109</td>
+      <td>home</td>
+      <td>11062</td>
+      <td>1</td>
+      <td>11611</td>
+      <td>2012-09-12</td>
+      <td>2014-03-14</td>
+      <td>5.48</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">payments</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_id</th>
+      <th>payment_amount</th>
+      <th>payment_date</th>
+      <th>missed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>965</th>
+      <td>11221</td>
+      <td>1511</td>
+      <td>2009-07-14</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1285</th>
+      <td>11264</td>
+      <td>218</td>
+      <td>2009-11-06</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1664</th>
+      <td>10769</td>
+      <td>210</td>
+      <td>2012-03-18</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1074</th>
+      <td>10106</td>
+      <td>1003</td>
+      <td>2003-09-09</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2521</th>
+      <td>10868</td>
+      <td>349</td>
+      <td>2013-10-04</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2909</th>
+      <td>10537</td>
+      <td>1292</td>
+      <td>2005-11-23</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>11141</td>
+      <td>1220</td>
+      <td>2007-09-20</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2445</th>
+      <td>10109</td>
+      <td>806</td>
+      <td>2014-07-23</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1581</th>
+      <td>10624</td>
+      <td>1176</td>
+      <td>2001-03-20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1344</th>
+      <td>10262</td>
+      <td>770</td>
+      <td>2007-03-02</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Manual-Feature-Engineering-Examples">Manual Feature Engineering Examples<a class="anchor-link" href="#Manual-Feature-Engineering-Examples">&#182;</a></h3><p>Let's show a few examples of features we might make by hand. We will keep this relatively simple to avoid doing too much work! First we will focus on a single dataframe before combining them together. In the <code>clients</code> dataframe, we can take the month of the <code>joined</code> column and the natural log of the <code>income</code> column. Later, we see these are known in featuretools as transformation feature primitives because they act on column in a single table.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a month column</span>
+<span class="n">clients</span><span class="p">[</span><span class="s1">&#39;join_month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clients</span><span class="p">[</span><span class="s1">&#39;joined&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+
+<span class="c1"># Create a log of income column</span>
+<span class="n">clients</span><span class="p">[</span><span class="s1">&#39;log_income&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">])</span>
+
+<span class="n">clients</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>joined</th>
+      <th>income</th>
+      <th>credit_score</th>
+      <th>join_month</th>
+      <th>log_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>46109</td>
+      <td>2002-04-16</td>
+      <td>172677</td>
+      <td>527</td>
+      <td>4</td>
+      <td>12.059178</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>49545</td>
+      <td>2007-11-14</td>
+      <td>104564</td>
+      <td>770</td>
+      <td>11</td>
+      <td>11.557555</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41480</td>
+      <td>2013-03-11</td>
+      <td>122607</td>
+      <td>585</td>
+      <td>3</td>
+      <td>11.716739</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>46180</td>
+      <td>2001-11-06</td>
+      <td>43851</td>
+      <td>562</td>
+      <td>11</td>
+      <td>10.688553</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25707</td>
+      <td>2006-10-06</td>
+      <td>211422</td>
+      <td>621</td>
+      <td>10</td>
+      <td>12.261611</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To incorporate information about the other tables, we use the <code>df.groupby</code> method, followed by a suitable aggregation function, followed by <code>df.merge</code>.  For example, let's calculate the average, minimum, and maximum amount of previous loans for each client. In the terms of featuretools, this would be considered an aggregation feature primitive because we using multiple tables in a one-to-many relationship to calculate aggregation figures (don't worry, this will be explained shortly!).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Groupby client id and calculate mean, max, min previous loan size</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;client_id&#39;</span><span class="p">)[</span><span class="s1">&#39;loan_amount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">])</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mean_loan_amount&#39;</span><span class="p">,</span> <span class="s1">&#39;max_loan_amount&#39;</span><span class="p">,</span> <span class="s1">&#39;min_loan_amount&#39;</span><span class="p">]</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_loan_amount</th>
+      <th>max_loan_amount</th>
+      <th>min_loan_amount</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>7963.950000</td>
+      <td>13913</td>
+      <td>1212</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>7270.062500</td>
+      <td>13464</td>
+      <td>1164</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>7824.722222</td>
+      <td>14865</td>
+      <td>2389</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>7125.933333</td>
+      <td>14593</td>
+      <td>653</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>9813.000000</td>
+      <td>14837</td>
+      <td>2778</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Merge with the clients dataframe</span>
+<span class="n">clients</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">left_on</span> <span class="o">=</span> <span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>joined</th>
+      <th>income</th>
+      <th>credit_score</th>
+      <th>join_month</th>
+      <th>log_income</th>
+      <th>mean_loan_amount</th>
+      <th>max_loan_amount</th>
+      <th>min_loan_amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>46109</td>
+      <td>2002-04-16</td>
+      <td>172677</td>
+      <td>527</td>
+      <td>4</td>
+      <td>12.059178</td>
+      <td>8951.600000</td>
+      <td>14049</td>
+      <td>559</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>49545</td>
+      <td>2007-11-14</td>
+      <td>104564</td>
+      <td>770</td>
+      <td>11</td>
+      <td>11.557555</td>
+      <td>10289.300000</td>
+      <td>14971</td>
+      <td>3851</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41480</td>
+      <td>2013-03-11</td>
+      <td>122607</td>
+      <td>585</td>
+      <td>3</td>
+      <td>11.716739</td>
+      <td>7894.850000</td>
+      <td>14399</td>
+      <td>811</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>46180</td>
+      <td>2001-11-06</td>
+      <td>43851</td>
+      <td>562</td>
+      <td>11</td>
+      <td>10.688553</td>
+      <td>7700.850000</td>
+      <td>14081</td>
+      <td>1607</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25707</td>
+      <td>2006-10-06</td>
+      <td>211422</td>
+      <td>621</td>
+      <td>10</td>
+      <td>12.261611</td>
+      <td>7963.950000</td>
+      <td>13913</td>
+      <td>1212</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>39505</td>
+      <td>2011-10-14</td>
+      <td>153873</td>
+      <td>610</td>
+      <td>10</td>
+      <td>11.943883</td>
+      <td>7424.050000</td>
+      <td>14575</td>
+      <td>904</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>32726</td>
+      <td>2006-05-01</td>
+      <td>235705</td>
+      <td>730</td>
+      <td>5</td>
+      <td>12.370336</td>
+      <td>6633.263158</td>
+      <td>14802</td>
+      <td>851</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>35089</td>
+      <td>2010-03-01</td>
+      <td>131176</td>
+      <td>771</td>
+      <td>3</td>
+      <td>11.784295</td>
+      <td>6939.200000</td>
+      <td>13194</td>
+      <td>773</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>35214</td>
+      <td>2003-08-08</td>
+      <td>95849</td>
+      <td>696</td>
+      <td>8</td>
+      <td>11.470529</td>
+      <td>7173.555556</td>
+      <td>14767</td>
+      <td>667</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>48177</td>
+      <td>2008-06-09</td>
+      <td>190632</td>
+      <td>769</td>
+      <td>6</td>
+      <td>12.158100</td>
+      <td>7424.368421</td>
+      <td>14740</td>
+      <td>659</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We could go further and include information about <code>payments</code> in the <code>clients</code> dataframe. To do so, we would have to group <code>payments</code> by the <code>loan_id</code>, merge it with the <code>loans</code>, group the resulting dataframe by the <code>client_id</code>, and then merge it into the <code>clients</code> dataframe. This would allow us to include information about previous payments for each client.</p>
+<p>Clearly, this process of manual feature engineering can grow quite tedious with many columns and multiple tables and I certainly don't want to have to do this process by hand! Luckily, featuretools can automatically perform this entire process and will create more features than we would have ever thought of. Although I love <code>pandas</code>, there is only so much manual data manipulation I'm willing to stand!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Featuretools">Featuretools<a class="anchor-link" href="#Featuretools">&#182;</a></h1><p>Now that we know what we are trying to avoid (tedious manual feature engineering), let's figure out how to automate this process. Featuretools operates on an idea known as <a href="https://docs.featuretools.com/api_reference.html#deep-feature-synthesis">Deep Feature Synthesis</a>. You can read the <a href="http://www.jmaxkanter.com/static/papers/DSAA_DSM_2015.pdf">original paper here</a>, and although it's quite readable, it's not necessary to understand the details to do automated feature engineering. The concept of Deep Feature Synthesis is to use basic building blocks known as feature primitives (like the transformations and aggregations done above) that can be stacked on top of each other to form new features. The depth of a "deep feature" is equal to the number of stacked primitives.</p>
+<p>I threw out some terms there, but don't worry because we'll cover them as we go. Featuretools builds on simple ideas to create a powerful method, and we will build up our understanding in much the same way.</p>
+<p>The first part of Featuretools to understand <a href="https://docs.featuretools.com/loading_data/using_entitysets.html#adding-entities">is an <code>entity</code></a>. This is simply a table, or in <code>pandas</code>, a <code>DataFrame</code>. We corral multiple entities into a <a href="https://docs.featuretools.com/loading_data/using_entitysets.html">single object called an <code>EntitySet</code></a>. This is just a large data structure composed of many individual entities and the relationships between them.</p>
+<h2 id="EntitySet">EntitySet<a class="anchor-link" href="#EntitySet">&#182;</a></h2><p>Creating a new <code>EntitySet</code> is pretty simple:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">es</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">EntitySet</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;clients&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Entities">Entities<a class="anchor-link" href="#Entities">&#182;</a></h2><p>An entity is simply a table, which is represented in Pandas as a <code>dataframe</code>. Each entity must have a uniquely identifying column, known as an index. For the clients dataframe, this is the <code>client_id</code> because each id only appears once in the <code>clients</code> data. In the <code>loans</code> dataframe, <code>client_id</code> is not an index because each id might appear more than once. The index for this dataframe is instead <code>loan_id</code>.</p>
+<p>When we create an <code>entity</code> in featuretools, we have to identify which column of the dataframe is the index. If the data does not have a unique index we can tell featuretools to make an index for the entity by passing in <code>make_index = True</code> and specifying a name for the index. If the data also has a uniquely identifying time index, we can pass that in as the <code>time_index</code> parameter.</p>
+<p>Featuretools will automatically infer the variable types (numeric, categorical, datetime) of the columns in our data, but we can also pass in specific datatypes to override this behavior. As an example, even though the <code>repaid</code> column in the <code>loans</code> dataframe is represented as an integer, we can tell featuretools that this is a categorical feature since it can only take on two discrete values. This is done using an integer with the variables as keys and the feature types as values.</p>
+<p>In the code below we create the three entities and add them to the <code>EntitySet</code>.  The syntax is relatively straightforward with a few notes: for the <code>payments</code> dataframe we need to make an index, for the <code>loans</code> dataframe, we specify that <code>repaid</code> is a categorical variable, and for the <code>payments</code> dataframe, we specify that <code>missed</code> is a categorical feature.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create an entity from the client dataframe</span>
+<span class="c1"># This dataframe already has an index and a time index</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">entity_from_dataframe</span><span class="p">(</span><span class="n">entity_id</span> <span class="o">=</span> <span class="s1">&#39;clients&#39;</span><span class="p">,</span> <span class="n">dataframe</span> <span class="o">=</span> <span class="n">clients</span><span class="p">,</span> 
+                              <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="n">time_index</span> <span class="o">=</span> <span class="s1">&#39;joined&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create an entity from the loans dataframe</span>
+<span class="c1"># This dataframe already has an index and a time index</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">entity_from_dataframe</span><span class="p">(</span><span class="n">entity_id</span> <span class="o">=</span> <span class="s1">&#39;loans&#39;</span><span class="p">,</span> <span class="n">dataframe</span> <span class="o">=</span> <span class="n">loans</span><span class="p">,</span> 
+                              <span class="n">variable_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;repaid&#39;</span><span class="p">:</span> <span class="n">ft</span><span class="o">.</span><span class="n">variable_types</span><span class="o">.</span><span class="n">Categorical</span><span class="p">},</span>
+                              <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;loan_id&#39;</span><span class="p">,</span> 
+                              <span class="n">time_index</span> <span class="o">=</span> <span class="s1">&#39;loan_start&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create an entity from the payments dataframe</span>
+<span class="c1"># This does not yet have a unique index</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">entity_from_dataframe</span><span class="p">(</span><span class="n">entity_id</span> <span class="o">=</span> <span class="s1">&#39;payments&#39;</span><span class="p">,</span> 
+                              <span class="n">dataframe</span> <span class="o">=</span> <span class="n">payments</span><span class="p">,</span>
+                              <span class="n">variable_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;missed&#39;</span><span class="p">:</span> <span class="n">ft</span><span class="o">.</span><span class="n">variable_types</span><span class="o">.</span><span class="n">Categorical</span><span class="p">},</span>
+                              <span class="n">make_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;payment_id&#39;</span><span class="p">,</span>
+                              <span class="n">time_index</span> <span class="o">=</span> <span class="s1">&#39;payment_date&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">es</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Entityset: clients
+  Entities:
+    clients [Rows: 25, Columns: 6]
+    loans [Rows: 443, Columns: 8]
+    payments [Rows: 3456, Columns: 5]
+  Relationships:
+    No relationships</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All three entities have been successfully added to the <code>EntitySet</code>. We can access any of the entities using Python dictionary syntax.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">es</span><span class="p">[</span><span class="s1">&#39;loans&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Entity: loans
+  Variables:
+    client_id (dtype: numeric)
+    loan_type (dtype: categorical)
+    loan_amount (dtype: numeric)
+    loan_start (dtype: datetime_time_index)
+    loan_end (dtype: datetime)
+    rate (dtype: numeric)
+    repaid (dtype: categorical)
+    loan_id (dtype: index)
+  Shape:
+    (Rows: 443, Columns: 8)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Featuretools correctly inferred each of the datatypes when we made this entity. We can also see that we overrode the type for the <code>repaid</code> feature, changing if from numeric to categorical.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">es</span><span class="p">[</span><span class="s1">&#39;payments&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Entity: payments
+  Variables:
+    loan_id (dtype: numeric)
+    payment_amount (dtype: numeric)
+    payment_date (dtype: datetime_time_index)
+    missed (dtype: categorical)
+    payment_id (dtype: index)
+  Shape:
+    (Rows: 3456, Columns: 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Relationships">Relationships<a class="anchor-link" href="#Relationships">&#182;</a></h2><p>After defining the entities (tables) in an <code>EntitySet</code>, we now need to tell featuretools <a href="https://docs.featuretools.com/loading_data/using_entitysets.html#adding-a-relationship">how they are related with a relationship</a>. The most intuitive way to think of relationships is with the parent to child analogy: a parent-to-child relationship is one-to-many because for each parent, there can be multiple children. The <code>client</code> dataframe is therefore the parent of the <code>loans</code> dataframe because while there is only one row for each client in the <code>client</code> dataframe, each client may have several previous loans covering multiple rows in the <code>loans</code> dataframe. Likewise, the <code>loans</code> dataframe is the parent of the <code>payments</code> dataframe because each loan will have multiple payments.</p>
+<p>These relationships are what allow us to group together datapoints using aggregation primitives and then create new features. As an example, we can group all of the previous loans associated with one client and find the average loan amount. We will discuss the features themselves more in a little bit, but for now let's define the relationships.</p>
+<p>To define relationships, we need to specify the parent variable and the child variable. This is the variable that links two entities together. In our example, the <code>client</code> and <code>loans</code> dataframes are linked together by the <code>client_id</code> column. Again, this is a parent to child relationship because for each <code>client_id</code> in the parent <code>client</code> dataframe, there may be multiple entries of the same <code>client_id</code> in the child <code>loans</code> dataframe.</p>
+<p>We codify relationships in the language of featuretools by specifying the parent variable and then the child variable. After creating a relationship, we add it to the <code>EntitySet</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Relationship between clients and previous loans</span>
+<span class="n">r_client_previous</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">Relationship</span><span class="p">(</span><span class="n">es</span><span class="p">[</span><span class="s1">&#39;clients&#39;</span><span class="p">][</span><span class="s1">&#39;client_id&#39;</span><span class="p">],</span>
+                                    <span class="n">es</span><span class="p">[</span><span class="s1">&#39;loans&#39;</span><span class="p">][</span><span class="s1">&#39;client_id&#39;</span><span class="p">])</span>
+
+<span class="c1"># Add the relationship to the entity set</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">r_client_previous</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The relationship has now been stored in the entity set. The second relationship is between the <code>loans</code> and <code>payments</code>. These two entities are related by the <code>loan_id</code> variable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Relationship between previous loans and previous payments</span>
+<span class="n">r_payments</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">Relationship</span><span class="p">(</span><span class="n">es</span><span class="p">[</span><span class="s1">&#39;loans&#39;</span><span class="p">][</span><span class="s1">&#39;loan_id&#39;</span><span class="p">],</span>
+                                      <span class="n">es</span><span class="p">[</span><span class="s1">&#39;payments&#39;</span><span class="p">][</span><span class="s1">&#39;loan_id&#39;</span><span class="p">])</span>
+
+<span class="c1"># Add the relationship to the entity set</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">r_payments</span><span class="p">)</span>
+
+<span class="n">es</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Entityset: clients
+  Entities:
+    clients [Rows: 25, Columns: 6]
+    loans [Rows: 443, Columns: 8]
+    payments [Rows: 3456, Columns: 5]
+  Relationships:
+    loans.client_id -&gt; clients.client_id
+    payments.loan_id -&gt; loans.loan_id</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have our entities in an entityset along with the relationships between them. We can now start to making new features from all of the tables using stacks of feature primitives to form deep features. First, let's cover feature primitives.</p>
+<h2 id="Feature-Primitives">Feature Primitives<a class="anchor-link" href="#Feature-Primitives">&#182;</a></h2><p>A <a href="https://docs.featuretools.com/automated_feature_engineering/primitives.html">feature primitive</a> a at a very high-level is an operation applied to data to create a feature. These represent very simple calculations that can be stacked on top of each other to create complex features. Feature primitives fall into two categories:</p>
+<ul>
+<li><strong>Aggregation</strong>: function that groups together child datapoints for each parent and then calculates a statistic such as mean, min, max, or standard deviation. An example is calculating the maximum loan amount for each client. An aggregation works across multiple tables using relationships between tables.</li>
+<li><strong>Transformation</strong>: an operation applied to one or more columns in a single table. An example would be extracting the day from dates, or finding the difference between two columns in one table.</li>
+</ul>
+<p>Let's take a look at feature primitives in featuretools. We can view the list of primitives:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">primitives</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">list_primitives</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">primitives</span><span class="p">[</span><span class="n">primitives</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;aggregation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[19]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>mode</td>
+      <td>aggregation</td>
+      <td>Finds the most common element in a categorical feature.</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>any</td>
+      <td>aggregation</td>
+      <td>Test if any value is 'True'.</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>last</td>
+      <td>aggregation</td>
+      <td>Returns the last value.</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>all</td>
+      <td>aggregation</td>
+      <td>Test if all values are 'True'.</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>median</td>
+      <td>aggregation</td>
+      <td>Finds the median value of any feature with well-ordered values.</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>min</td>
+      <td>aggregation</td>
+      <td>Finds the minimum non-null value of a numeric feature.</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>avg_time_between</td>
+      <td>aggregation</td>
+      <td>Computes the average time between consecutive events.</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>aggregation</td>
+      <td>Finds the maximum non-null value of a numeric feature.</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>n_most_common</td>
+      <td>aggregation</td>
+      <td>Finds the N most common elements in a categorical feature.</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>percent_true</td>
+      <td>aggregation</td>
+      <td>Finds the percent of 'True' values in a boolean feature.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">primitives</span><span class="p">[</span><span class="n">primitives</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;transform&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[20]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19</th>
+      <td>add</td>
+      <td>transform</td>
+      <td>Creates a transform feature that adds two features.</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>seconds</td>
+      <td>transform</td>
+      <td>Transform a Timedelta feature into the number of seconds.</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>time_since_previous</td>
+      <td>transform</td>
+      <td>Compute the time since the previous instance.</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>cum_min</td>
+      <td>transform</td>
+      <td>Calculates the min of previous values of an instance for each value in a time-dependent entity.</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>divide</td>
+      <td>transform</td>
+      <td>Creates a transform feature that divides two features.</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>hour</td>
+      <td>transform</td>
+      <td>Transform a Datetime feature into the hour.</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>and</td>
+      <td>transform</td>
+      <td>For two boolean values, determine if both values are 'True'.</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>or</td>
+      <td>transform</td>
+      <td>For two boolean values, determine if one value is 'True'.</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>years</td>
+      <td>transform</td>
+      <td>Transform a Timedelta feature into the number of years.</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>isin</td>
+      <td>transform</td>
+      <td>For each value of the base feature, checks whether it is in a provided list.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If featuretools does not have enough primitives for us, we can <a href="https://docs.featuretools.com/automated_feature_engineering/primitives.html#defining-custom-primitives">also make our own.</a></p>
+<p>To get an idea of what a feature primitive actually does, let's try out a few on our data. Using primitives is surprisingly easy using the <code>ft.dfs</code> function (which stands for deep feature synthesis). In this function, we specify the entityset to use; the <code>target_entity</code>, which is the dataframe we want to make the features for (where the features end up); the <code>agg_primitives</code> which are the aggregation feature primitives; and the <code>trans_primitives</code> which are the transformation primitives to apply.</p>
+<p>In the following example, we are using the <code>EntitySet</code> we already created, the target entity is the <code>clients</code> dataframe because we want to make new features about each client, and then we specify a few aggregation and transformation primitives.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create new features using specified primitives</span>
+<span class="n">features</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">entityset</span> <span class="o">=</span> <span class="n">es</span><span class="p">,</span> <span class="n">target_entity</span> <span class="o">=</span> <span class="s1">&#39;clients&#39;</span><span class="p">,</span> 
+                                 <span class="n">agg_primitives</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;percent_true&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">],</span>
+                                 <span class="n">trans_primitives</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;subtract&#39;</span><span class="p">,</span> <span class="s1">&#39;divide&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;MONTH(joined)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MONTH(joined)</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;MEAN(payments.payment_amount)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[23]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MEAN(payments.payment_amount)</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>1178.552795</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>1166.736842</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>1207.433824</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>1109.473214</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>1439.433333</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[24]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>income</th>
+      <th>credit_score</th>
+      <th>join_month</th>
+      <th>log_income</th>
+      <th>MEAN(loans.loan_amount)</th>
+      <th>MEAN(loans.rate)</th>
+      <th>MAX(loans.loan_amount)</th>
+      <th>MAX(loans.rate)</th>
+      <th>LAST(loans.loan_type)</th>
+      <th>LAST(loans.loan_amount)</th>
+      <th>...</th>
+      <th>log_income - income / MAX(payments.payment_amount)</th>
+      <th>LAST(loans.loan_amount) / income</th>
+      <th>log_income - credit_score / join_month</th>
+      <th>join_month - log_income / MEAN(loans.loan_amount)</th>
+      <th>join_month / income - join_month</th>
+      <th>credit_score - log_income / LAST(loans.rate)</th>
+      <th>join_month - log_income / MAX(loans.loan_amount)</th>
+      <th>credit_score - income / join_month - log_income</th>
+      <th>join_month - income / MEAN(payments.payment_amount)</th>
+      <th>join_month - credit_score / log_income - credit_score</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>211422</td>
+      <td>621</td>
+      <td>10</td>
+      <td>12.261611</td>
+      <td>7963.950000</td>
+      <td>3.477000</td>
+      <td>13913</td>
+      <td>9.44</td>
+      <td>home</td>
+      <td>2203</td>
+      <td>...</td>
+      <td>-78.184075</td>
+      <td>0.010420</td>
+      <td>-60.873839</td>
+      <td>-0.000284</td>
+      <td>0.000047</td>
+      <td>82.261944</td>
+      <td>-0.000163</td>
+      <td>93208.319781</td>
+      <td>-179.382715</td>
+      <td>1.003715</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>227920</td>
+      <td>633</td>
+      <td>5</td>
+      <td>12.336750</td>
+      <td>7270.062500</td>
+      <td>2.517500</td>
+      <td>13464</td>
+      <td>6.73</td>
+      <td>credit</td>
+      <td>5275</td>
+      <td>...</td>
+      <td>-85.744042</td>
+      <td>0.023144</td>
+      <td>-124.132650</td>
+      <td>-0.001009</td>
+      <td>0.000022</td>
+      <td>428.043621</td>
+      <td>-0.000545</td>
+      <td>30979.248435</td>
+      <td>-195.343964</td>
+      <td>1.011821</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>174532</td>
+      <td>680</td>
+      <td>8</td>
+      <td>12.069863</td>
+      <td>7824.722222</td>
+      <td>2.466111</td>
+      <td>14865</td>
+      <td>6.51</td>
+      <td>other</td>
+      <td>13918</td>
+      <td>...</td>
+      <td>-59.522486</td>
+      <td>0.079745</td>
+      <td>-83.491267</td>
+      <td>-0.000520</td>
+      <td>0.000046</td>
+      <td>742.144596</td>
+      <td>-0.000274</td>
+      <td>42716.912967</td>
+      <td>-144.541255</td>
+      <td>1.006093</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>214516</td>
+      <td>806</td>
+      <td>11</td>
+      <td>12.276140</td>
+      <td>7125.933333</td>
+      <td>2.855333</td>
+      <td>14593</td>
+      <td>5.65</td>
+      <td>cash</td>
+      <td>9249</td>
+      <td>...</td>
+      <td>-77.494120</td>
+      <td>0.043116</td>
+      <td>-72.156715</td>
+      <td>-0.000179</td>
+      <td>0.000051</td>
+      <td>277.525825</td>
+      <td>-0.000087</td>
+      <td>167466.003631</td>
+      <td>-193.339503</td>
+      <td>1.001608</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>38354</td>
+      <td>523</td>
+      <td>8</td>
+      <td>10.554614</td>
+      <td>9813.000000</td>
+      <td>3.445000</td>
+      <td>14837</td>
+      <td>6.76</td>
+      <td>home</td>
+      <td>7223</td>
+      <td>...</td>
+      <td>-13.231003</td>
+      <td>0.188325</td>
+      <td>-64.055673</td>
+      <td>-0.000260</td>
+      <td>0.000209</td>
+      <td>100.676893</td>
+      <td>-0.000172</td>
+      <td>14808.890291</td>
+      <td>-26.639650</td>
+      <td>1.004985</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 797 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Already we can see how useful featuretools is: it performed the same operations we did manually but also many more in addition. Examining the names of the features in the dataframe brings us to the final piece of the puzzle: deep features.</p>
+<h2 id="Deep-Feature-Synthesis">Deep Feature Synthesis<a class="anchor-link" href="#Deep-Feature-Synthesis">&#182;</a></h2><p>While feature primitives are useful by themselves, the main benefit of using featuretools arises when we stack primitives to get deep features. The depth of a feature is simply the number of primitives required to make a feature. So, a feature that relies on a single aggregation would be a deep feature with a depth of 1, a feature that stacks two primitives would have a depth of 2 and so on. The idea itself is lot simpler than the name "deep feature synthesis" implies. (I think the authors were trying to ride the way of deep neural network hype when they named the method!) To read more about deep feature synthesis, check out <a href="https://docs.featuretools.com/automated_feature_engineering/afe.html">the documentation</a> or the <a href="http://www.jmaxkanter.com/static/papers/DSAA_DSM_2015.pdf">original paper by Max Kanter et al</a>.</p>
+<p>Already in the dataframe we made by specifying the primitives manually we can see the idea of feature depth. For instance, the MEAN(loans.loan_amount) feature has a depth of 1 because it is made by applying a single aggregation primitive. This feature represents the average size of a client's previous loans.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Show a feature with a depth of 1</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;MEAN(loans.loan_amount)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[25]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MEAN(loans.loan_amount)</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>7963.950000</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>7270.062500</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>7824.722222</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>7125.933333</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>9813.000000</td>
+    </tr>
+    <tr>
+      <th>32726</th>
+      <td>6633.263158</td>
+    </tr>
+    <tr>
+      <th>32885</th>
+      <td>9920.400000</td>
+    </tr>
+    <tr>
+      <th>32961</th>
+      <td>7882.235294</td>
+    </tr>
+    <tr>
+      <th>35089</th>
+      <td>6939.200000</td>
+    </tr>
+    <tr>
+      <th>35214</th>
+      <td>7173.555556</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As well scroll through the features, we see a number of features with a depth of 2. For example, the LAST(loans.(MEAN(payments.payment_amount))) has depth = 2 because it is made by stacking two feature primitives, first an aggregation and then a transformation. This feature represents the average payment amount for the last (most recent) loan for each client.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Show a feature with a depth of 2</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;LAST(loans.MEAN(payments.payment_amount))&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[26]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LAST(loans.MEAN(payments.payment_amount))</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>293.500000</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>977.375000</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>1769.166667</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>1598.666667</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>1125.500000</td>
+    </tr>
+    <tr>
+      <th>32726</th>
+      <td>799.500000</td>
+    </tr>
+    <tr>
+      <th>32885</th>
+      <td>1729.000000</td>
+    </tr>
+    <tr>
+      <th>32961</th>
+      <td>282.600000</td>
+    </tr>
+    <tr>
+      <th>35089</th>
+      <td>110.400000</td>
+    </tr>
+    <tr>
+      <th>35214</th>
+      <td>1410.250000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can create features of arbitrary depth by stacking more primitives. However, when I have used featuretools I've never gone beyond a depth of 2! After this point, the features become very convoluted to understand. I'd encourage anyone interested to experiment with increasing the depth (maybe for a real problem) and see if there is value to "going deeper".</p>
+<h2 id="Automated-Deep-Feature-Synthesis">Automated Deep Feature Synthesis<a class="anchor-link" href="#Automated-Deep-Feature-Synthesis">&#182;</a></h2><p>In addition to manually specifying aggregation and transformation feature primitives, we can let featuretools automatically generate many new features. We do this by making the same <code>ft.dfs</code> function call, but without passing in any primitives. We just set the <code>max_depth</code> parameter and featuretools will automatically try many all combinations of feature primitives to the ordered depth.</p>
+<p>When running on large datasets, this process can take quite a while, but for our example data, it will be relatively quick. For this call, we only need to specify the <code>entityset</code>, the <code>target_entity</code> (which will again be <code>clients</code>), and the <code>max_depth</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Perform deep feature synthesis without specifying primitives</span>
+<span class="n">features</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">entityset</span><span class="o">=</span><span class="n">es</span><span class="p">,</span> <span class="n">target_entity</span><span class="o">=</span><span class="s1">&#39;clients&#39;</span><span class="p">,</span> 
+                                 <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[28]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SUM(loans.loan_amount)</th>
+      <th>SUM(loans.rate)</th>
+      <th>STD(loans.loan_amount)</th>
+      <th>STD(loans.rate)</th>
+      <th>MAX(loans.loan_amount)</th>
+      <th>MAX(loans.rate)</th>
+      <th>SKEW(loans.loan_amount)</th>
+      <th>SKEW(loans.rate)</th>
+      <th>MIN(loans.loan_amount)</th>
+      <th>MIN(loans.rate)</th>
+      <th>...</th>
+      <th>NUM_UNIQUE(loans.WEEKDAY(loan_end))</th>
+      <th>MODE(loans.MODE(payments.missed))</th>
+      <th>MODE(loans.DAY(loan_start))</th>
+      <th>MODE(loans.DAY(loan_end))</th>
+      <th>MODE(loans.YEAR(loan_start))</th>
+      <th>MODE(loans.YEAR(loan_end))</th>
+      <th>MODE(loans.MONTH(loan_start))</th>
+      <th>MODE(loans.MONTH(loan_end))</th>
+      <th>MODE(loans.WEEKDAY(loan_start))</th>
+      <th>MODE(loans.WEEKDAY(loan_end))</th>
+    </tr>
+    <tr>
+      <th>client_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25707</th>
+      <td>159279</td>
+      <td>69.54</td>
+      <td>4044.418728</td>
+      <td>2.421285</td>
+      <td>13913</td>
+      <td>9.44</td>
+      <td>-0.172074</td>
+      <td>0.679118</td>
+      <td>1212</td>
+      <td>0.33</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0</td>
+      <td>27</td>
+      <td>1</td>
+      <td>2010</td>
+      <td>2007</td>
+      <td>1</td>
+      <td>8</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26326</th>
+      <td>116321</td>
+      <td>40.28</td>
+      <td>4254.149422</td>
+      <td>1.991819</td>
+      <td>13464</td>
+      <td>6.73</td>
+      <td>0.135246</td>
+      <td>1.067853</td>
+      <td>1164</td>
+      <td>0.50</td>
+      <td>...</td>
+      <td>5</td>
+      <td>0</td>
+      <td>6</td>
+      <td>6</td>
+      <td>2003</td>
+      <td>2005</td>
+      <td>4</td>
+      <td>7</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>26695</th>
+      <td>140845</td>
+      <td>44.39</td>
+      <td>4078.228493</td>
+      <td>1.517660</td>
+      <td>14865</td>
+      <td>6.51</td>
+      <td>0.154467</td>
+      <td>0.820060</td>
+      <td>2389</td>
+      <td>0.22</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0</td>
+      <td>3</td>
+      <td>14</td>
+      <td>2003</td>
+      <td>2005</td>
+      <td>9</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>106889</td>
+      <td>42.83</td>
+      <td>4389.555657</td>
+      <td>1.564795</td>
+      <td>14593</td>
+      <td>5.65</td>
+      <td>0.156534</td>
+      <td>-0.001998</td>
+      <td>653</td>
+      <td>0.13</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0</td>
+      <td>16</td>
+      <td>1</td>
+      <td>2002</td>
+      <td>2004</td>
+      <td>12</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>29841</th>
+      <td>176634</td>
+      <td>62.01</td>
+      <td>4090.630609</td>
+      <td>2.063092</td>
+      <td>14837</td>
+      <td>6.76</td>
+      <td>-0.212397</td>
+      <td>0.050600</td>
+      <td>2778</td>
+      <td>0.26</td>
+      <td>...</td>
+      <td>7</td>
+      <td>1</td>
+      <td>1</td>
+      <td>15</td>
+      <td>2005</td>
+      <td>2007</td>
+      <td>3</td>
+      <td>2</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 90 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Deep feature synthesis has created 90 new features out of the existing data! While we could have created all of these manually, I am glad to not have to write all that code by hand. The primary benefit of featuretools is that it creates features without any subjective human biases. Even a human with considerable domain knowledge will be limited by their imagination when making new features (not to mention time). Automated feature engineering is not limited by these factors (instead it's limited by computation time) and provides a good starting point for feature creation. This process likely will not remove the human contribution to feature engineering completely because a human can still use domain knowledge and machine learning expertise to select the most important features or build new features from those suggested by automated deep feature synthesis.</p>
+<h1 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">&#182;</a></h1><p>While automatic feature engineering solves one problem, it provides us with another problem: too many features! Although it's difficult to say which features will be important to a given machine learning task ahead of time, it's likely that not all of the features made by featuretools add value. In fact, having too many features is a significant issue in machine learning because it makes training a model much harder. The <a href="https://pdfs.semanticscholar.org/a83b/ddb34618cc68f1014ca12eef7f537825d104.pdf">irrelevant features can drown out the important features</a>, leaving a model unable to learn how to map the features to the target.</p>
+<p>This problem is known as the <a href="https://en.wikipedia.org/wiki/Curse_of_dimensionality#Machine_learning">"curse of dimensionality"</a> and is addressed through the process of <a href="http://scikit-learn.org/stable/modules/feature_selection.html">feature reduction and selection</a>, which means <a href="https://machinelearningmastery.com/feature-selection-machine-learning-python/">removing low-value features</a> from the data. Defining which features are useful is an important problem where a data scientist can still add considerable value to the feature engineering task. Feature reduction will have to be another topic for another day!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h1><p>In this notebook, we saw how to apply automated feature engineering to an example dataset. This is a powerful method which allows us to overcome the human limits of time and imagination to create many new features from multiple tables of data. Featuretools is built on the idea of deep feature synthesis, which means stacking multiple simple feature primitives - <strong>aggregations and transformations</strong> - to create new features. Feature engineering allows us to combine information across many tables into a single dataframe that we can then use for machine learning model training. Finally, the next step after creating all of these features is figuring out which ones are important.</p>
+<p>Featuretools is currently the only Python option for this process, but with the recent emphasis on automating aspects of the machine learning pipeline, other competitiors will probably enter the sphere. While the exact tools will change, the idea of automatically creating new features out of existing data will grow in importance. Staying up-to-date on methods such as automated feature engineering is crucial in the rapidly changing field of data science. Now go out there and find a problem on which to apply featuretools!</p>
+<p>For more information, check out the <a href="https://docs.featuretools.com/index.html">documentation for featuretools</a>. Also, read about how featuretools is <a href="https://www.featurelabs.com/">used in the real world by Feature Labs</a>, the company behind the open-source library.</p>
+
+</div>
+</div>
+</div>
+ 
+
+</p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="./featuretools_data_generation.html">Data Creation for Automated Feature Engineering via Featuretools post</a></li>
+        <li><a href="./fix_spelling_errors.html">How to remove typos from entity names via fuzzywuzzy module in python.</a></li>
+        <li><a href="./mapping_sql_to_pandas.html">Mapping SQL to Pandas</a></li>
+        <li><a href="./layman_random_forrest.html">Layman's Introduction to Random Forests</a></li>
+        <li><a href="./install_spark.html">How to install Spark and use it from python via pyspark</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+    <p>
+      <strong>About Al Krinker</strong><br/>
+        I work as a Data Scientist at USPTO.<br/> I am a husband and a father. <br/> I am Brazilian Jiu Jitsu brown belt. <br/>I enjoy coding, reading, and taking pictures of my son!
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./featuretools_data_generation.html">Data Creation for Automated Feature Engineering via Featuretools post</a></li>
+    <li class="list-group-item"><a href="./featuretools.html">Automated Feature Engineering via Featuretools</a></li>
+    <li class="list-group-item"><a href="./how_to_move_elasticsearch_data_directory.html">How to move ElasticSearch data directory</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="./"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-4">
+      <a href="./tag/chrome.html">chrome</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="./tag/data-science.html">data science</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="./tag/feature-engineering.html">feature engineering</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="./tag/featuretools.html">featuretools</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="./tag/git.html">git</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="./tag/linux.html">linux</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="./tag/mac.html">mac</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="./tag/machine-learning.html">machine learning</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="./tag/mariadb.html">mariadb</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="./tag/python.html">python</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+  <a href="https://github.com/krinkere">@krinkere</a> on GitHub
+</li>
+<!-- End Sidebar/Github -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 Al Krinker
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+    <script src="./static/js/custom.js"></script>
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = './theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'krinkere',
+    count: 5,
+    skip_forks: true,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="./theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
+</body>
+</html>
